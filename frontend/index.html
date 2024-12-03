@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クイズアプリ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ホーム画面 -->
+  <div id="home" class="container text-center">
+    <h1 class="logo">ミニラン</h1>
+    <button class="btn btn-primary mt-4" id="start-button">スタート</button>
+  </div>
+
+  <!-- mebu-display -->
+  <div id="menu" class="container text-center">
+    <div class="options">
+      <button class="btn btn-primary mt-4" id="create-button">作る</button>
+      <button class="btn btn-primary mt-4" id="play-button">遊ぶ</button>
+    </div>  
+  </div>
+
+  <!-- クイズ画面 -->
+  <div id="quiz" class="container text-center d-none">
+    <h2 class="title">クイズ</h2>
+    <p class="question">任天堂・・</p>
+    <div class="options selects">
+      <button class="btn btn-outline-primary option">スイッチ</button>
+      <button class="btn btn-outline-primary option">バトルドーム</button>
+      <button class="btn btn-outline-primary option">wii</button>
+      <button class="btn btn-outline-primary option">バトルドーム</button>
+    </div>
+  </div>
+
+  <!-- 正解画面 -->
+  <div id="result" class="container text-center d-none">
+    <p class="status">正解</p>
+    <h2 class="answer">スイッチ</h2>
+    <div class="actions">
+      <button class="btn btn-primary next-button">次へ</button>
+      <button class="btn btn-secondary quit-button">やめる</button>
+    </div>
+  </div>
+
+  <script src="game.js">
+    
+  </script>
+</body>
+</html>

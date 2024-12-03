@@ -2,23 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const homeScreen = document.getElementById("home");
     const quizScreen = document.getElementById("quiz");
     const resultScreen = document.getElementById("result");
-    const menuScreen = document.getElementById("menu");
+    const gameModeScreen = document.getElementById("game-mode");
+    const selectGameScreen = document.getElementById("SelctGameKind");
+
   
     const startButton = document.getElementById("start-button");
     const createButton = document.getElementById("create-button");
     const playButton = document.getElementById("play-button");
+
+    
     
     const options = document.querySelectorAll(".selects");
     const nextButton = document.querySelector(".next-button");
     const quitButton = document.querySelector(".quit-button");
+    const gameKindOptions = document.querySelector(".gamekind-option");
+    // const gameModeOptions = document.querySelector(".gamemodes-option");
 
 
   
     const statusText = document.querySelector(".status");
     const answerText = document.querySelector(".answer");
   
-    // クイズデータ
-    
+    // ゲームデータ
+    let gameMode = "play";
     
     questions = [
       {
@@ -38,56 +44,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   ]  
 
-    function reqListener(){
-      console.log(this.responseText);
-    }
 
-    function LoadRequest(){
-      console.log("hello");
+  
 
-      const req = new XMLHttpRequest();
-      // req.addEventListener("load",reqListener);
-      req.open("GET","http://127.0.0.1:2342/info/2")
-      // req.send();
-      req.responseType = "json";
-      req.onload = () => {
-        if(req.readyState == 4 && req.status == 200){
-          const date = req.response;
-          console.log(date);
-          return date;
-        }else{
-          console.log(`Error: ${req.status}`);
-        }
-      };
-      return "Not Found";    
-    }
-
-
-    question = {}
-
-    fetch('http://127.0.0.1:2342/info/2')
-        .then(res => res.json())
-        .then(data => {
-          console.log(data[0]);
-          const question = data[0];
-          const d = document.createElement('h1');
-          d.innerText=question["questiondate"];
-          document.body.appendChild(d)
-        })
-       
-
-displayLoadRequest
-    //display
+    /**
+     * That option discplayis
+     * @param display (string)この引数にhome,quiz,result,game_select,game_modeなどをstringで入れると、
+     * その名前のdisplayを表示する
+     */
     function displayLoadRequest(display)
     {
-        /**
-         * That option discplayis
-         * @param display (string)第1引数のコメント
-         * [home],["quiz"],["menu"],["result"]
-         */
+        
+        gameModeScreen.classList.add("d-none");
+        selectGameScreen.classList.add("d-none");
         quizScreen.classList.add("d-none");
         resultScreen.classList.add("d-none");
-        menuScreen.classList.add("d-none");
+        // menuScreen.classList.add("d-none");
         homeScreen.classList.add("d-none");
         if (display == "home")
         {
@@ -97,9 +69,13 @@ displayLoadRequest
         {
             quizScreen.classList.remove("d-none");
         }
-        else if (display == "menu")
+        else if (display == "game_select")
         {
-            menuScreen.classList.remove("d-none");
+            selectGameScreen.classList.remove("d-none");
+        }
+        else if (display == "game_mode")
+        {
+            gameModeScreen.classList.remove("d-none");
         }
         else if (display == "result")
         {
@@ -107,17 +83,52 @@ displayLoadRequest
         }
     }
 
+    displayLoadRequest("home");
     // 正解データ
     const correctAnswer = "スイッチ";
-  
-    // クイズ開始
+    
+    // ゲームモードへ行く
     startButton.addEventListener("click", () => {
         /*
         homeScreen.classList.add("d-none");
       quizScreen.classList.remove("d-none");
       */
-        displayLoadRequest("menu");
+      console.log("start");
+      displayLoadRequest("game_mode");
     });
+
+    playButton.addEventListener("click",()=>{
+      displayLoadRequest("game_select");
+    });
+
+    //gameMode
+    options.forEach(option => {
+      option.addEventListener("click", (event) => {
+        const selectedAnswer = event.target.textContent;
+  
+        // 判定処理
+        if (selectedAnswer === correctAnswer) 
+        {
+          statusText.textContent = "正解";
+          statusText.style.color = "#28a745"; 
+        }
+        else
+        {
+          statusText.textContent = "不正解";
+          statusText.style.color = "#dc3545"; 
+        }
+  
+        answerText.textContent = correctAnswer; // 正解を表示
+  
+        // 結果画面へ移動
+        /*
+        quizScreen.classList.add("d-none");
+        resultScreen.classList.remove("d-none");
+        */
+        displayLoadRequest("result");
+      });
+    });
+    
 
     
   
@@ -141,8 +152,11 @@ displayLoadRequest
         answerText.textContent = correctAnswer; // 正解を表示
   
         // 結果画面へ移動
+        /*
         quizScreen.classList.add("d-none");
         resultScreen.classList.remove("d-none");
+        */
+        displayLoadRequest("result");
       });
     });
   
@@ -172,9 +186,7 @@ displayLoadRequest
       // resultScreen.classList.add("d-none");
       // menuScreen.classList.add("d-none");
       // homeScreen.classList.remove("d-none");
-      ScreenSet(false,resultScreen);
-      ScreenSet(false,menuScreen);
-      ScreenSet(true,homeScreen);
+      displayLoadRequest("home");
     });
   
     // やめる（ホーム画面に戻る）

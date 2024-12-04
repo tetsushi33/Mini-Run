@@ -136,15 +136,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    gamekind = {
+      "クイズ":"quiz",
+      "間違え探し":"different"
+    }
+
     console.log(gameKindOptions);
     gameKindOptions.forEach(option => {
       console.log(option);
-      option.addEventListener("click", (event) => {
+      option.addEventListener("click", (event) => 
+      {
         const selectGameKind = event.target.textContent;
-        if (selectedAnswer == "クイズ"){
-          displayLoadRequest("quiz");
-        }
+        if(gamekind[selectGameKind] != null){
 
+        }else{
+          console.error("selectGameKindOptionNothing");
+        }
       });
     });
 

@@ -10,13 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const createButton = document.getElementById("create-button");
     const playButton = document.getElementById("play-button");
 
-    
-    
+
+    // quiz
     const options = document.querySelectorAll(".selects");
+    const question = document.getElementById("question_text");
+
     const nextButton = document.querySelector(".next-button");
     const quitButton = document.querySelector(".quit-button");
     const gameKindOptions = document.querySelectorAll(".gamekind-option");
-    // const gameModeOptions = document.querySelector(".gamemodes-option");
 
 
     const statusText = document.querySelector(".status");
@@ -31,25 +32,30 @@ document.addEventListener("DOMContentLoaded", () => {
       "イントロドン":"introdon"
     }
 
-    questions = [
+    
+    //クイズデータ
+    question_date = [
       {
           "question": "halejfalwjfwfioa",
-          "options": [
+          "selects": [
               "hewaj;foewifj;w", 
               "jfoiea;jfiwfo", 
               "hoieajf;fjwf", 
               "hioefj;aefiofe"
           ],
-          "answer": "hfeafjaweo;fiw"
+          "answer": 2
       },
 
       {
           "question": "別の質問例",
-          "options": ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
-          "answer": "選択肢1"
+          "selects": ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
+          "answer": 1
       },
-  ]  
-
+    ]  
+    
+    // 正解データ
+    let correctAnswer = "スイッチ";
+    
 
     /**
      * That option discplayis
@@ -58,29 +64,33 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     function displayLoadRequest(display)
     {
-        
         gameModeScreen.classList.add("d-none");
         selectGameScreen.classList.add("d-none");
         quizScreen.classList.add("d-none");
         resultScreen.classList.add("d-none");
-        // menuScreen.classList.add("d-none");
         homeScreen.classList.add("d-none");
+
+
         if (display == "home")
         {
             homeScreen.classList.remove("d-none");
         }
+        
         else if (display == "quiz")
         {
             quizScreen.classList.remove("d-none");
         }
+        
         else if (display == "game_select")
         {
             selectGameScreen.classList.remove("d-none");
         }
+        
         else if (display == "game_mode")
         {
             gameModeScreen.classList.remove("d-none");
         }
+        
         else if (display == "result")
         {
             resultScreen.classList.remove("d-none");
@@ -88,8 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     displayLoadRequest("home");
-    // 正解データ
-    let correctAnswer = "スイッチ";
+    
     
     // ゲームモードへ行く
     startButton.addEventListener("click", () => {
@@ -157,23 +166,28 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    /*
-     * 作る
-     * @param questions リスト
-     **/
-
-    q = ["hello","helntai","haefo;wj","jfo;ejfw"]
-    function quiz_set(questions,answer_number)
+    /**
+     * 質問を書き込む
+     * @param question_text (string)質問文
+     * @param selects (list-string)選択肢で表示するもの
+     * @param answer_number (int)selectsでの連番-何番目の選択肢を正解にするか、
+     * その名前のdisplayを表示する
+     */
+    function quiz_set(question_text,selects,answer_number)
     {
+      question.textContent = question_text;
       const quiz_contents = options.item(0).children;      
       for(var i = 0; i < 4;i++)
       {
-        quiz_contents[i].textContent = questions[i];
+        quiz_contents[i].textContent = selects[i];
       }
-      correctAnswer = questions[answer_number];
+      correctAnswer = selects[answer_number];
     }
 
-    quiz_set(q,2);
+    //テスト用のプログラムを組み込んでいる
+    quiz_set(question_date[0]["question"],
+      question_date[0]["selects"],
+      question_date[0]["answer"]);
     
   
     // 回答選択

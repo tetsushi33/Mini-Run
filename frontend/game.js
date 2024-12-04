@@ -24,11 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // ゲームデータ
     let gameMode = "play";
-    
-    /* 
-     * helloWOlffe
-     **/
-    
+    //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
+    gamekind = {
+      "クイズ":"quiz",
+      "間違え探し":"SerchDifferent",
+      "イントロドン":"introdon"
+    }
+
     questions = [
       {
           "question": "halejfalwjfwfioa",
@@ -40,15 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ],
           "answer": "hfeafjaweo;fiw"
       },
+
       {
           "question": "別の質問例",
           "options": ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
           "answer": "選択肢1"
-      }
+      },
   ]  
 
-
-  
 
     /**
      * That option discplayis
@@ -88,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     displayLoadRequest("home");
     // 正解データ
-    const correctAnswer = "スイッチ";
+    let correctAnswer = "スイッチ";
     
     // ゲームモードへ行く
     startButton.addEventListener("click", () => {
@@ -105,11 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //gameMode
 
-    //quiz set
-    // console.log(questions[1]["options"][0])
 
-    //quiz game
+    //クイズ
     options.forEach(option => {
+      console.log(option[0]);
       option.addEventListener("click", (event) => {
         const selectedAnswer = event.target.textContent;
   
@@ -119,6 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
           statusText.textContent = "正解";
           statusText.style.color = "#28a745"; 
         }
+
+
         else
         {
           statusText.textContent = "不正解";
@@ -128,65 +130,55 @@ document.addEventListener("DOMContentLoaded", () => {
         answerText.textContent = correctAnswer; // 正解を表示
   
         // 結果画面へ移動
-        /*
-        quizScreen.classList.add("d-none");
-        resultScreen.classList.remove("d-none");
-        */
         displayLoadRequest("result");
       });
     });
+    
+    
+    //間違い探し
 
-    gamekind = {
-      "クイズ":"quiz",
-      "間違え探し":"different"
-    }
+    
 
     console.log(gameKindOptions);
-    gameKindOptions.forEach(option => {
+    gameKindOptions.forEach(option => 
+    {
       console.log(option);
       option.addEventListener("click", (event) => 
       {
         const selectGameKind = event.target.textContent;
         if(gamekind[selectGameKind] != null){
-
-        }else{
+          displayLoadRequest(gamekind[selectGameKind]);
+        }
+        
+        else
+        {
           console.error("selectGameKindOptionNothing");
         }
       });
     });
 
-    gameKindOptions.forEach(option => {
-      option.addEventListener("click", (event) => {
-        const selectedAnswer = event.target.textContent;
-  
-        // 判定処理
-        if (selectedAnswer == "クイズ") 
-        {
-          displayLoadRequest("quiz");
-          statusText.textContent = "正解";
-          statusText.style.color = "#28a745"; 
-        }
-        else
-        {
-          statusText.textContent = "不正解";
-          statusText.style.color = "#dc3545"; 
-        }
-  
-        // answerText.textContent = correctAnswer; // 正解を表示
-  
-        // 結果画面へ移動
-        /*
-        quizScreen.classList.add("d-none");
-        resultScreen.classList.remove("d-none");
-        */
-        // displayLoadRequest("result");
-      });
-    });
+    /*
+     * 作る
+     * @param questions リスト
+     **/
 
+    q = ["hello","helntai","haefo;wj","jfo;ejfw"]
+    function quiz_set(questions,answer_number)
+    {
+      const quiz_contents = options.item(0).children;      
+      for(var i = 0; i < 4;i++)
+      {
+        quiz_contents[i].textContent = questions[i];
+      }
+      correctAnswer = questions[answer_number];
+    }
+
+    quiz_set(q,2);
     
   
     // 回答選択
-    options.forEach(option => {
+    options.forEach(option => 
+    {
       option.addEventListener("click", (event) => {
         const selectedAnswer = event.target.textContent;
   
@@ -203,12 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
   
         answerText.textContent = correctAnswer; // 正解を表示
-  
+        
         // 結果画面へ移動
-        /*
-        quizScreen.classList.add("d-none");
-        resultScreen.classList.remove("d-none");
-        */
         displayLoadRequest("result");
       });
     });
@@ -216,16 +204,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 次の問題へ（ここでは単純にホーム画面に戻る処理）
     nextButton.addEventListener("click", () => {
-      // resultScreen.classList.add("d-none");
-      // menuScreen.classList.add("d-none");
-      // homeScreen.classList.remove("d-none");
       displayLoadRequest("home");
     });
   
     // やめる（ホーム画面に戻る）
     quitButton.addEventListener("click", () => {
-      resultScreen.classList.add("d-none");
-      homeScreen.classList.remove("d-none");
+      displayLoadRequest("home");
     });
 
     

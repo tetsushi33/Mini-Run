@@ -1,4 +1,3 @@
-重要関数  
 `displayLoadRequest`  
 どの画面を表示するかをstring側で受け取り。  
 指定された画面を表示する.  

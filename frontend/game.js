@@ -15,16 +15,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const options = document.querySelectorAll(".selects");
     const nextButton = document.querySelector(".next-button");
     const quitButton = document.querySelector(".quit-button");
-    const gameKindOptions = document.querySelector(".gamekind-option");
+    const gameKindOptions = document.querySelectorAll(".gamekind-option");
     // const gameModeOptions = document.querySelector(".gamemodes-option");
 
 
-  
     const statusText = document.querySelector(".status");
     const answerText = document.querySelector(".answer");
   
     // ゲームデータ
     let gameMode = "play";
+    
+    /* 
+     * helloWOlffe
+     **/
     
     questions = [
       {
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       {
           "question": "別の質問例",
           "options": ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
-          "answer": "正解"
+          "answer": "選択肢1"
       }
   ]  
 
@@ -93,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
         homeScreen.classList.add("d-none");
       quizScreen.classList.remove("d-none");
       */
-      console.log("start");
       displayLoadRequest("game_mode");
     });
 
@@ -102,6 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //gameMode
+
+    //quiz set
+    // console.log(questions[1]["options"][0])
+
+    //quiz game
     options.forEach(option => {
       option.addEventListener("click", (event) => {
         const selectedAnswer = event.target.textContent;
@@ -128,7 +135,46 @@ document.addEventListener("DOMContentLoaded", () => {
         displayLoadRequest("result");
       });
     });
-    
+
+    console.log(gameKindOptions);
+    gameKindOptions.forEach(option => {
+      console.log(option);
+      option.addEventListener("click", (event) => {
+        const selectGameKind = event.target.textContent;
+        if (selectedAnswer == "クイズ"){
+          displayLoadRequest("quiz");
+        }
+
+      });
+    });
+
+    gameKindOptions.forEach(option => {
+      option.addEventListener("click", (event) => {
+        const selectedAnswer = event.target.textContent;
+  
+        // 判定処理
+        if (selectedAnswer == "クイズ") 
+        {
+          displayLoadRequest("quiz");
+          statusText.textContent = "正解";
+          statusText.style.color = "#28a745"; 
+        }
+        else
+        {
+          statusText.textContent = "不正解";
+          statusText.style.color = "#dc3545"; 
+        }
+  
+        // answerText.textContent = correctAnswer; // 正解を表示
+  
+        // 結果画面へ移動
+        /*
+        quizScreen.classList.add("d-none");
+        resultScreen.classList.remove("d-none");
+        */
+        // displayLoadRequest("result");
+      });
+    });
 
     
   
@@ -160,26 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   
-
-    function ScreenSet(switch_screen,screen)
-    {
-      console.log(screen,switch_screen);
-      if(switch_screen == true)
-      {
-        
-        screen.classList.remove("d-none");
-      }
-      else if(switch_screen == false)
-      {
-        screen.classList.add("d-none");
-      }
-      else
-      {
-        console.error("ScreenDon't set switch_screen");
-      }
-      console.log(screen,switch_screen);
-
-    }
 
     // 次の問題へ（ここでは単純にホーム画面に戻る処理）
     nextButton.addEventListener("click", () => {

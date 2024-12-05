@@ -1,4 +1,5 @@
-const quiz_system = require("./games/quiz.js");
+// const quiz_system = require("./games/quiz.js");
+
 console.log(quiz_system);
 
 document.addEventListener("DOMContentLoaded", () => {

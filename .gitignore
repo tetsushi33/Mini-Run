@@ -1,0 +1,6 @@
+# log files
+backend/logs
+
+# environment informations and credentials
+*.env
+*.pyc

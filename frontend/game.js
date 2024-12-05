@@ -1,3 +1,6 @@
+const quiz_system = require("./games/quiz.js");
+console.log(quiz_system);
+
 document.addEventListener("DOMContentLoaded", () => {
     const homeScreen = document.getElementById("home");
     const quizScreen = document.getElementById("quiz");
@@ -9,20 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("start-button");
     const createButton = document.getElementById("create-button");
     const playButton = document.getElementById("play-button");
-
-
-    // quiz
-    const options = document.querySelectorAll(".selects");
-    const question = document.getElementById("question_text");
-
     const nextButton = document.querySelector(".next-button");
     const quitButton = document.querySelector(".quit-button");
+
     const gameKindOptions = document.querySelectorAll(".gamekind-option");
 
+    // let quiz_system = new quiz();
+
+    
 
     const statusText = document.querySelector(".status");
     const answerText = document.querySelector(".answer");
   
+    
+
     // ゲームデータ
     let gameMode = "play";
     //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
@@ -53,8 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     ]  
     
-    // 正解データ
-    let correctAnswer = "スイッチ";
     
 
     /**
@@ -97,15 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     displayLoadRequest("home");
     
     
-    // ゲームモードへ行く
     startButton.addEventListener("click", () => {
-        /*
-        homeScreen.classList.add("d-none");
-      quizScreen.classList.remove("d-none");
-      */
       displayLoadRequest("game_mode");
     });
 
@@ -117,35 +114,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //クイズ
-    options.forEach(option => {
-      console.log(option[0]);
-      option.addEventListener("click", (event) => {
-        const selectedAnswer = event.target.textContent;
+    // select_options.forEach(option => {
+    //   console.log(option[0]);
+    //   option.addEventListener("click", (event) => {
+    //     const selectedAnswer = event.target.textContent;
   
-        // 判定処理
-        if (selectedAnswer === correctAnswer) 
-        {
-          statusText.textContent = "正解";
-          statusText.style.color = "#28a745"; 
-        }
+    //     // 判定処理
+    //     if (selectedAnswer === correctAnswer) 
+    //     {
+    //       statusText.textContent = "正解";
+    //       statusText.style.color = "#28a745"; 
+    //     }
 
 
-        else
-        {
-          statusText.textContent = "不正解";
-          statusText.style.color = "#dc3545"; 
-        }
+    //     else
+    //     {
+    //       statusText.textContent = "不正解";
+    //       statusText.style.color = "#dc3545"; 
+    //     }
   
-        answerText.textContent = correctAnswer; // 正解を表示
+    //     answerText.textContent = correctAnswer; // 正解を表示
   
-        // 結果画面へ移動
-        displayLoadRequest("result");
-      });
-    });
+    //     // 結果画面へ移動
+    //     displayLoadRequest("result");
+    //   });
+    // });
+    // quit_system.quiz_set(question_date[0]["question"],
+    //                     question_date[0]["selects"],
+    //                     question_date[0]["answer"]);
+
+    // quiz_system.quiz_SelectEvent();
     
     
-    //間違い探し
-
     
 
     console.log(gameKindOptions);
@@ -155,6 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
       option.addEventListener("click", (event) => 
       {
         const selectGameKind = event.target.textContent;
+
+        //選択したボタンのtextCountentからと一致する名前のゲームのdivを表示する
         if(gamekind[selectGameKind] != null){
           displayLoadRequest(gamekind[selectGameKind]);
         }
@@ -166,54 +168,39 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    /**
-     * 質問を書き込む
-     * @param question_text (string)質問文
-     * @param selects (list-string)選択肢で表示するもの
-     * @param answer_number (int)selectsでの連番-何番目の選択肢を正解にするか、
-     * その名前のdisplayを表示する
-     */
-    function quiz_set(question_text,selects,answer_number)
-    {
-      question.textContent = question_text;
-      const quiz_contents = options.item(0).children;      
-      for(var i = 0; i < 4;i++)
-      {
-        quiz_contents[i].textContent = selects[i];
-      }
-      correctAnswer = selects[answer_number];
-    }
+    
+    
 
     //テスト用のプログラムを組み込んでいる
-    quiz_set(question_date[0]["question"],
+    quiz_system.quiz_set(question_date[0]["question"],
       question_date[0]["selects"],
       question_date[0]["answer"]);
     
-  
+    quiz_system.quiz_SelectEvent();
     // 回答選択
-    options.forEach(option => 
-    {
-      option.addEventListener("click", (event) => {
-        const selectedAnswer = event.target.textContent;
+    // select_options.forEach(option => 
+    // {
+    //   option.addEventListener("click", (event) => {
+    //     const selectedAnswer = event.target.textContent;
   
-        // 判定処理
-        if (selectedAnswer === correctAnswer) 
-        {
-          statusText.textContent = "正解";
-          statusText.style.color = "#28a745"; 
-        }
-        else
-        {
-          statusText.textContent = "不正解";
-          statusText.style.color = "#dc3545"; 
-        }
+    //     // 判定処理
+    //     if (selectedAnswer === correctAnswer) 
+    //     {
+    //       statusText.textContent = "正解";
+    //       statusText.style.color = "#28a745"; 
+    //     }
+    //     else
+    //     {
+    //       statusText.textContent = "不正解";
+    //       statusText.style.color = "#dc3545"; 
+    //     }
   
-        answerText.textContent = correctAnswer; // 正解を表示
+    //     answerText.textContent = correctAnswer; // 正解を表示
         
-        // 結果画面へ移動
-        displayLoadRequest("result");
-      });
-    });
+    //     // 結果画面へ移動
+    //     displayLoadRequest("result");
+    //   });
+    // });
   
 
     // 次の問題へ（ここでは単純にホーム画面に戻る処理）
@@ -226,6 +213,4 @@ document.addEventListener("DOMContentLoaded", () => {
       displayLoadRequest("home");
     });
 
-    
   });
-

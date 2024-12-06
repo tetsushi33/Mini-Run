@@ -17,24 +17,29 @@
       <h2>間違い探し</h2>
       <div class="option differentPoint-iamge">
         <p class="col-red col-sm-30 col-md-50">05/??</p>
-        <img src="image/ban-1.png" alt="d-image-1" class="different-image" id="target">
-        <img src="image/ban-2.png" alt="d-image-2" class="different-image">
+        <!-- 間違いを記入できるようにCANVASにする -->
+        <canvas class="different-image" id="target"></canvas>
+        <canvas class="different-image"></canvas>
       </div>  
     </div>
   </div>
   
-
-  <div id="create-mode" class="container text-center">
-
+  <div class="d-none">
+    <img src="image/ban-1.png" class="imgs">
+    <img src="image/ban-2.png" class="imgs">
   </div>
-    <div id="differentPoint" class="container text-center">
+
+  <div id="create-mode" class="container text-center d-none">
+    <div id="differentPoint" class="container text-center ">
       <h2>間違い探し</h2>
       <div class="option differentPoint-iamge">
-        <button type="button" class="requewst_iamges">画像1を選択</button>
-        
-        <button type="button" class="requewst_iamges">画像2を選択</button>  
-      </div>  
+        <canvas class="requewst_iamges">画像1を選択</button>
+        <canvas class="requewst_iamges">画像2を選択</button>
+          
+      </div>
     </div>
+  </div>
+    
   <style>
     .different-image{
       margin: 23px;
@@ -43,17 +48,14 @@
     body{
       background-color: rgb(175, 211, 141);
     }
+    .d-none{
+      display: none;
+    }
   </style>
   <script src="game.js"></script>
   <script src="games/FindDifference.js"></script>
-  <!-- <script>
-    //----] ターゲットの img 要素
-    const target = document.getElementById( "target" );
-    //----] クリックイベント
-    target.onclick =( evt )=> 
-    {
-      console.log( `( ${ evt.offsetX }, ${ evt.offsetY } )` );
-    };
-  </script> -->
+  <script>
+    
+</script>
 </body>
 </html>

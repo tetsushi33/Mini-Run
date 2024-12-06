@@ -10,6 +10,9 @@
 Play
      - GET_TouchImagePostion
         画像のどこをタップしたかを調べる処理
+         |
+         V
+      addEventlistenerに変更した
 
 
      - Drow_ScuessImagePostion

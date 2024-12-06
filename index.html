@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イントロドン</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <p id="info-text">制限時間は10秒！5回まで答えられるよ！</p>
+        <div id="quiz-screen">
+            <p id="timer">残り時間: <span id="time-left">10</span>秒</p>
+            <p>解答回数: <span id="answer-count">0</span>/<span id="max-answer-count">5</span></p>
+            <button id="start-button">スタート</button>
+            <div id="buttons">
+                <button class="answer-button" id="button1">ボタン1</button>
+                <button class="answer-button" id="button2">ボタン2</button>
+            </div>
+            <input type="text" id="answer-input" placeholder="曲名を入力">
+            <button id="submit-answer-button">解答完了</button>
+            <p id="result-message" style="display: none;"></p>
+            <button id="next-button" style="display: none;">次へ</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

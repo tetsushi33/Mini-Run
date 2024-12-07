@@ -122,10 +122,14 @@ class GameController:
         except Exception as e:
             return make_response(jsonify({'code': 500, 'message': str(e)}), 500)
             
+    
+    
     def play_quiz(self):
         try:
+            data = request.get_json()
             # データベースからランダムに問題を取得
-            response = self.db_client.get_random()
+            #response = self.db_client.get_random()
+            response = self.db_client.get_random_2(genre="quiz")
             if response:
                 quiz_data = {
                 "question": response.get('question', {}).get('S', ''),
@@ -151,10 +155,11 @@ class GameController:
         try:
             # データベースからランダムに問題を取得
             response = self.db_client.get_random()
+            #response = self.db_client.get_random_2()
             if response:
                 intro_data = {
                 "music_title_answer": response.get('music_title_answer', {}).get('S', ''),
-                "music_data": response.get('music_data', {}).get('B', '')
+                #"music_data": response.get('music_data', {}).get('B', '')
                 }
                 return make_response(jsonify({
                     'code': 200,

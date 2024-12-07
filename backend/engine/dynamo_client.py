@@ -25,6 +25,53 @@ class DynamoClient:
         random_key = random.choice(valid_keys)
         response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
         return response.get('Item')
+    
+    def get_random_2(self, genre: str) -> None:
+        '''指定されたジャンルの中からランダムに1件レコードを取得するメソッド'''
+        # 指定されたジャンルのアイテムをスキャン
+        response_all = self.db.scan(
+            TableName=self.table_name,
+            FilterExpression="genre = :genre",
+            ExpressionAttributeValues={":genre": {"S": genre}}
+        )
+        items = response_all.get('Items', [])
+        if not items:
+            return None
+        
+        if genre == "quiz":
+            # 有効なキーを取得
+            valid_keys = [item['id']['N'] for item in items]
+            random_key = random.choice(valid_keys)
+            # 選択肢をシャッフル
+            selects = selected_item['selects']['L']
+            random.shuffle(selects)
+            # ランダムに選ばれたキーのアイテムを取得
+            response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
+            return response.get('Item')
+        if genre == "introdon":
+            # "introdon" 用の特別な処理
+            selected_item = random.choice(items)
+
+            # 音声データのハッシュ値と元の名前を取得
+            file_hash = selected_item['file_hash']['S']
+            original_name = selected_item['original_name']['S']
+
+            # 必要に応じて他の処理を追加可能
+            return {
+                "file_hash": file_hash,
+                "original_name": original_name,
+            }
+
+
+
+        # 有効なキーを取得
+        valid_keys = [item['id']['N'] for item in items]
+        random_key = random.choice(valid_keys)
+
+        # ランダムに選ばれたキーのアイテムを取得
+        response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
+        return response.get('Item')
+
 
     def scan(self, **kwargs):
         return self.db.scan(**kwargs)

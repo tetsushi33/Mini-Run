@@ -30,8 +30,8 @@ def hello_world():
 
 @router.route("/api/play/random", methods=['GET'])
 @logger.http_request_logging
-def api_play_random():
-    return controller.get_game_random()
+def api_play_random_quiz():
+    return controller.get_quiz_random()
 
 @router.route("/api/create/quiz", methods=['POST'])
 @logger.http_request_logging

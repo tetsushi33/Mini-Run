@@ -40,3 +40,24 @@ def upload_to_s3(file, file_hash, content_type):
     except Exception as e:
         print(f"Error uploading file to S3: {e}")
         raise e
+    
+def get_s3_file_url(file_key: str) -> str:
+    """
+    S3のファイルにアクセスするための署名付きURLを生成する関数
+
+    Args:
+        file_key (str): S3に格納されているオブジェクトのキー
+
+    Returns:
+        str: 署名付きURL
+    """
+    try:
+        url = s3_client.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': os.getenv("S3_BUCKET"), 'Key': file_key},
+            ExpiresIn=3600  # URLの有効期限（秒単位）
+        )
+        return url
+    except Exception as e:
+        print(f"Error generating S3 presigned URL: {e}")
+        return ""

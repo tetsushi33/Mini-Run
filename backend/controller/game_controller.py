@@ -32,9 +32,11 @@ class GameController:
         data = request.get_json()
         question = data['question']
         selects = data['selects']
-        answer_idx = data['answer_idx']
+        answer_idx = data['answer_idx'] - 1
+        data['answer_idx'] = answer_idx - 1
         last_id = self.get_last_id()
         data['id'] = last_id + 1
+        data['genre'] = 'quiz'
 
         # バリデーションを実装
         if not isinstance(question, str) or not question.strip():
@@ -127,13 +129,12 @@ class GameController:
     def play_quiz(self):
         try:
             # データベースからランダムに問題を取得
-            #response = self.db_client.get_random()
             response = self.db_client.get_random_2(genre="quiz")
             if response:
                 quiz_data = {
-                "question": response.get('question', {}).get('S', ''),
-                "selects": [select.get('S', '') for select in response.get('selects', {}).get('L', [])],
-                "answer_idx": int(response.get('answer_idx', {}).get('N', -1))
+                    "question": response.get('question', {}).get('S', ''),
+                    "selects": [select.get('S', '') for select in response.get('selects', {}).get('L', [])],
+                    "answer_idx": int(response.get('answer_idx', {}).get('N', -1))
                 }
                 return make_response(jsonify({
                     'code': 200,

@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function displayLoadRequest(display)
     {
 
-        createModeScreen.classList.add("d-none");
+        createScreen.classList.add("d-none");
         playScreen.classList.add("d-none");
         if(gameMode == "create"){
             createScreen.classList.remove("d-none");

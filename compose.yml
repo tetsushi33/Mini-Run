@@ -15,7 +15,7 @@ services:
     build: ./backend
     container_name: backend
     ports:
-      - "5001:5001"
+      - "5001:5000"
     volumes:
       - ./backend:/app
     env_file:

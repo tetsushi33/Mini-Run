@@ -13,11 +13,16 @@ class GameController:
         }))
 
     def create_quiz(self):
+        # 必要な処理をここに記述
+        return {"message": "Intro created successfully"}
+
+    def create_quiz(self):
         # リクエストデータを取得
         data = request.get_json()
         question = data['questions']
         selects = data['selects']
-        answer = data['answer']
+        answer = data['answer_idx']
+        id = data['id'] # データベースを見て次のidを取得する
 
         # バリデーションを実装
         if not data or 'quiz_name' not in data or 'questions' not in data:
@@ -42,9 +47,20 @@ class GameController:
         
     def create_intro(self):
         data = request.get_json()
-        if not data or 'intro_name' not in data or 'intro_text' not in data:
-            return make_response(jsonify({'code': 400, 'message': 'Invalid data'}), 400)
-        
+        music_title_answer = data['music_title_answer']
+        music_data = data['music_data']#musicのデータ本体
+        id = data['id'] # データベースを見て次のidを取得する
+
+        # バリデーションを実装
+        #if not data or 'intro_name' not in data or 'intro_text' not in data:
+        #    return make_response(jsonify({'code': 400, 'message': 'Invalid data'}), 400)
+
+        if not isinstance(music_title_answer, str) or not music_title_answer.strip():
+            return make_response(jsonify({'code': 400, 'message': 'Invalid music_title_answer'}), 400)
+        if not music_data:
+            return make_response(jsonify({'code': 400, 'message': 'Invalid music_data'}), 400)
+
+        # DBに保存
         try:
             if self.db_client.create_intro(data):
                 return make_response(jsonify({'code': 200, 'message': 'Intro created successfully'}), 200)
@@ -52,3 +68,8 @@ class GameController:
                 return make_response(jsonify({'code': 500, 'message': 'Failed to create intro'}), 500)
         except Exception as e:
             return make_response(jsonify({'code': 500, 'message': str(e)}), 500)
+
+    def create_diffshot(self):
+        data = request.get_json()
+        music_title_answer = data['music_title_answer']
+        music_data = data['music_data']

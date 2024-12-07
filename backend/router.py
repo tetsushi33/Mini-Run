@@ -26,6 +26,16 @@ def api_play_random():
 def api_create_quiz():
     return game_controller.create_quiz()
 
+@router.route("/api/create/intro", methods=['POST'])
+@logger.http_request_logging
+def api_create_intro():
+    return game_controller.create_intro()
+
+@router.route("/api/create/diffshot", methods=['POST'])
+@logger.http_request_logging
+def api_create_diffshot():
+    return game_controller.create_diffshot()
+
 @router.after_request
 def after_request(response):
     # response.headers.add('Access-Control-Allow-Origin', '*')

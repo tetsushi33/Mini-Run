@@ -28,9 +28,15 @@ class DynamoClient:
         '''
         client = boto3.client('dynamodb') # ここで良いかは不明
         response = client.put_item(TableName=self.table_name, Item={
-            'quiz_name': {'S': data['quiz_name']}, # quiz_nameではなくidか
             'questions': {'S': data['questions']},
             'selects': {'L': [{'S': s} for s in data['selects']]},
-            'answer': {'N': str(data['answer'])}
+            'answer_idx': {'N': str(data['answer'])},
+            'likes': {'N': '0'}
         })
         return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
+    
+    def create_intro(self, data: dict) -> None:
+        '''対象のテーブルにイントロデータを登録するメソッド
+        '''
+        client = boto3.client('dynamodb')
+    

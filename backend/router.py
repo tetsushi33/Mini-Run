@@ -48,6 +48,7 @@ def api_create_intro():
 def api_create_diffshot():
     return controller.create_diffshot()
 
+
 @router.after_request
 def after_request(response):
     # response.headers.add('Access-Control-Allow-Origin', '*')

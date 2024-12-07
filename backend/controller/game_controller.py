@@ -6,6 +6,7 @@ import hashlib
 #from s3_client import upload_to_s3
 #from dotenv import load_dotenv
 
+
 class GameController:
     def __init__(self):
         self.db_client = DynamoClient(table_name="game_table")
@@ -111,3 +112,4 @@ class GameController:
         except Exception as e:
             return make_response(jsonify({'code': 500, 'message': str(e)}), 500)
             
+

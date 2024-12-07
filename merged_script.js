@@ -20,7 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const showQuizButton = document.getElementById("show-quiz");
     const showCreateButton = document.getElementById("show-create");
     const screens = document.querySelectorAll(".screen");
+    const choice = document.getElementById("choice");
+    const choiceQuizButton = document.getElementById("choice-quiz");
+    const choicemachigaiButton = document.getElementById("choice-machigai");
+    const choiceintroButton = document.getElementById("choice-intro");
+    
 
+     
+    
     // 画面切り替え関数
     function switchScreen(targetScreen) {
         screens.forEach(screen => screen.classList.add("d-none")); // すべて非表示
@@ -38,13 +45,36 @@ document.addEventListener('DOMContentLoaded', function () {
         navigation.classList.add("d-none");
         quizContainer.classList.remove("d-none");
         createQuizContainer.classList.add("d-none");
+        choice.classList.add("d-none");
         
     });
 
     showCreateButton.addEventListener("click", () => {
         navigation.classList.add("d-none");
         quizContainer.classList.add("d-none");
+        createQuizContainer.classList.add("d-none");
+        choice.classList.remove("d-none");
+    });
+    choiceQuizButton.addEventListener("click", () => {
+        navigation.classList.add("d-none");
+        quizContainer.classList.add("d-none");
+        createQuizContainer.classList.add("d-none");
+        choice.classList.add("d-none");
+        
+    });
+    choicemachigaiButton.addEventListener("click", () => {
+        navigation.classList.add("d-none");
+        quizContainer.classList.add("d-none");
+        createQuizContainer.classList.add("d-none");
+        choice.classList.add("d-none");
+        
+    });
+    choiceintroButton.addEventListener("click", () => {
+        navigation.classList.add("d-none");
+        quizContainer.classList.add("d-none");
         createQuizContainer.classList.remove("d-none");
+        choice.classList.add("d-none");
+        
     });
 
     // クイズ設定
@@ -150,10 +180,10 @@ document.addEventListener('DOMContentLoaded', function () {
         nextButton.style.display = 'block';
 
         if (isCorrect) {
-            resultMessage.textContent = "〇";
+            resultMessage.textContent = "〇正解";
             resultMessage.className = 'correct';
         } else {
-            resultMessage.textContent = "×";
+            resultMessage.textContent = "×不正解";
             resultMessage.className = 'incorrect';
         }
 
@@ -181,10 +211,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function toggleCreateButton() {
         const audioFile = audioUpload.files[0];
-        const answer = answerInput.value;
+        const answer = answerInput.value.trim;
 
         if (createButton) {
-            createButton.disabled = !(audioFile && answer);
+            createButton.disabled = !(audioFile && answer&& audioFile.type.startsWith("audio"));
         }
     }
 

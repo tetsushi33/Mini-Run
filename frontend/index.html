@@ -73,7 +73,6 @@
           <input type="text" id="answer-input" placeholder="曲名を入力">
           <button id="submit-answer-button">解答完了</button>
           <p id="result-message" style="display: none;"></p>
-          <button id="next-button" style="display: none;">次へ</button>
       </div>
     </div>
 
@@ -85,7 +84,6 @@
         <button class="btn btn-secondary quit-button">やめる</button>
       </div>
     </div>
-
 
   </div>
   <!-- files -->
@@ -111,15 +109,26 @@
     <div id="create_quiz" class="container text-center ">
       <h2>クイズ</h2>
       <div class="option differentPoint-iamge">
-      
+        <form action="upload/quiz">
+          <p>質問</p>
+          <input type="text" id="quiz_question">
+          
+          <p>選択肢</p>
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          
+          <p>回答</p>
+          <input type="text" id="quiz_answer">
+        </form>
       </div>
-
     </div>
 
 
     <!-- introDon -->
     <div id="create_introdon" class="container text-center ">
-
+      
     </div>
   </div>
 

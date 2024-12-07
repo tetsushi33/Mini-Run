@@ -23,7 +23,6 @@ class GameController:
         if not data or 'quiz_name' not in data or 'questions' not in data:
             return make_response(jsonify({'code': 400, 'message': 'Invalid data'}), 400)
 
-        # バリデーションを実装
         if not isinstance(question, str) or not question.strip():
             return make_response(jsonify({'code': 400, 'message': 'Invalid question'}), 400)
         if not isinstance(selects, list) or len(selects) != 4:
@@ -39,4 +38,17 @@ class GameController:
                 return make_response(jsonify({'code': 500, 'message': 'Failed to create quiz'}), 500)
         except Exception as e:
             # エラーハンドリングを実装
+            return make_response(jsonify({'code': 500, 'message': str(e)}), 500)
+        
+    def create_intro(self):
+        data = request.get_json()
+        if not data or 'intro_name' not in data or 'intro_text' not in data:
+            return make_response(jsonify({'code': 400, 'message': 'Invalid data'}), 400)
+        
+        try:
+            if self.db_client.create_intro(data):
+                return make_response(jsonify({'code': 200, 'message': 'Intro created successfully'}), 200)
+            else:
+                return make_response(jsonify({'code': 500, 'message': 'Failed to create intro'}), 500)
+        except Exception as e:
             return make_response(jsonify({'code': 500, 'message': str(e)}), 500)

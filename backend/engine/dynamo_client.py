@@ -22,3 +22,15 @@ class DynamoClient:
         random_key = random.randrange(response_len)
         response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
         return response.get('Item', [])
+
+    def create_quiz(self, data: dict) -> None:
+        '''対象のテーブルにクイズデータを登録するメソッド
+        '''
+        client = boto3.client('dynamodb') # ここで良いかは不明
+        response = client.put_item(TableName=self.table_name, Item={
+            'quiz_name': {'S': data['quiz_name']}, # quiz_nameではなくidか
+            'questions': {'S': data['questions']},
+            'selects': {'L': [{'S': s} for s in data['selects']]},
+            'answer': {'N': str(data['answer'])}
+        })
+        return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False

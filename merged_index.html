@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>イントロドン</title>
-    <link rel="stylesheet" href="style.css">
-    <title>イントロドン作成</title>
-    <link rel="stylesheet" href="style2.css"> <!-- 外部CSSファイル -->
+    <link rel="stylesheet" href="merged_style.css">
 </head>
 <body>
-    <nav>
+    <nav id="navigation">
         <button id="show-quiz">クイズ画面</button>
         <button id="show-create">クイズ作成</button>
     </nav>
     <!-- クイズ画面 -->
-    <div id="quiz-container" style="display: block;">
-        <p id="info-text">制限時間は10秒！5回まで答えられるよ！</p>
+    <div id="quiz-container" class="screen d-none">
+        <p id="info-text">制限時間は60秒！5回まで答えられるよ！</p>
         <div id="quiz-screen">
-            <p id="timer">残り時間: <span id="time-left">10</span>秒</p>
+            <p id="timer">残り時間: <span id="time-left">60</span>秒</p>
             <p>解答回数: <span id="answer-count">0</span>/<span id="max-answer-count">5</span></p>
             <button id="start-button">スタート</button>
             <div id="buttons">
@@ -31,45 +29,28 @@
         </div>
     </div>
     <!-- クイズ作成画面 -->
-    <div id="create-quiz-container">
+    <div id="create-quiz-container" class="screen d-none">
         <h1>イントロドン作成</h1>
-
-        <!-- 音声ファイルアップロード -->
         <label for="audio-upload">音声をアップロード：</label>
         <input type="file" id="audio-upload" accept="audio/*">
-
         <br><br>
-
-        <!-- 答えの入力 -->
         <label for="answer-input">答え：</label>
         <input type="text" id="answer-input" placeholder="曲名を入力">
-
         <br><br>
-
-        <!-- 作成ボタン -->
         <button id="create-button">作成</button>
-
-        <!-- 完了メッセージ -->
         <p id="status-message" style="display: none;">音声と答えが送信されました！</p>
     </div>
     <script>
-        // タブ切り替えスクリプト
-        const quizContainer = document.getElementById("quiz-container");
-        const createQuizContainer = document.getElementById("create-quiz-container");
-        const showQuizButton = document.getElementById("show-quiz");
-        const showCreateButton = document.getElementById("show-create");
-
-        showQuizButton.addEventListener("click", () => {
-            quizContainer.style.display = "block";
-            createQuizContainer.style.display = "none";
-        });
-
-        showCreateButton.addEventListener("click", () => {
-            quizContainer.style.display = "none";
-            createQuizContainer.style.display = "block";
-        });
+        
+        const audioUpload = document.getElementById("audio-upload");
+        audioUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const audioElement = new Audio(URL.createObjectURL(file));
+                audioElement.play();
+            }
+        })
     </script>
-    <script src="script.js"></script>
-    <script src="script2.js"></script>
+    <script src="merged_script.js"></script>
 </body>
 </html>

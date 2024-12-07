@@ -1,11 +1,12 @@
 from flask import Blueprint
-from controller import game_controller
+from controller.game_controller import GameController
 from logging import config
 from json import load
 import logger
 
 # Generate Router Instance
 router = Blueprint('router', __name__)
+controller = GameController()
 
 # Read Logging Configuration
 with open("./config/logging.json", "r", encoding="utf-8") as f:
@@ -19,12 +20,12 @@ def hello_world():
 @router.route("/api/play/random", methods=['GET'])
 @logger.http_request_logging
 def api_play_random():
-    return game_controller.get_game_random()
+    return controller.get_game_random()
 
 @router.route("/api/create/quiz", methods=['POST'])
 @logger.http_request_logging
 def api_create_quiz():
-    return game_controller.create_quiz()
+    return controller.create_quiz()
 
 @router.after_request
 def after_request(response):

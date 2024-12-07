@@ -3,11 +3,9 @@ services:
     build: ./frontend
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "8080:80"
     volumes:
       - ./frontend:/app
-    environment:
-      - NODE_ENV=development
     depends_on:
       - backend
 

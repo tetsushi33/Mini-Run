@@ -3,7 +3,7 @@ from engine.dynamo_client import DynamoClient
 
 class GameController:
     def __init__(self):
-        self.db_client = DynamoClient(table_name="game_table")
+        self.db_client = DynamoClient(table_name="minirun_game_table")
 
     def get_game_random(self):
         response = self.db_client.get_random()

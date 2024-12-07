@@ -154,8 +154,8 @@ class GameController:
     def play_intro(self):
         try:
             # データベースからランダムに問題を取得
-            response = self.db_client.get_random()
-            #response = self.db_client.get_random_2()
+            #response = self.db_client.get_random()
+            response = self.db_client.get_random_2(genre="introdon")
             if response:
                 intro_data = {
                 "music_title_answer": response.get('music_title_answer', {}).get('S', ''),

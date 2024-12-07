@@ -34,22 +34,17 @@ class DynamoClient:
             FilterExpression="genre = :genre",
             ExpressionAttributeValues={":genre": {"S": genre}}
         )
-        items = response_all.get('Items', [])
-        if not items:
-            return None
-        
+
         if genre == "quiz":
             # 有効なキーを取得
-            valid_keys = [item['id']['N'] for item in items]
+            valid_keys = [item['id']['N'] for item in response_all['Items']]
             random_key = random.choice(valid_keys)
-            # 選択肢をシャッフル
-            selects = selected_item['selects']['L']
-            random.shuffle(selects)
-            # ランダムに選ばれたキーのアイテムを取得
             response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
             return response.get('Item')
         if genre == "introdon":
-            # "introdon" 用の特別な処理
+            # 有効なキーを取得
+            valid_keys = [item['id']['N'] for item in items]
+            random_key = random.choice(valid_keys)
             selected_item = random.choice(items)
 
             # 音声データのハッシュ値と元の名前を取得

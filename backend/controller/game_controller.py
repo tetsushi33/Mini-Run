@@ -126,9 +126,14 @@ class GameController:
             # データベースからランダムに問題を取得
             response = self.db_client.get_random()
             if response:
+                quiz_data = {
+                "question": response.get('question', {}).get('S', ''),
+                "selects": [select.get('S', '') for select in response.get('selects', {}).get('L', [])],
+                "answer_idx": int(response.get('answer_idx', {}).get('N', -1))
+                }
                 return make_response(jsonify({
                     'code': 200,
-                    'game': response
+                    'game_content': quiz_data
                 }), 200)
             else:
                 return make_response(jsonify({

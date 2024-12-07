@@ -31,9 +31,11 @@ class GameController:
         data = request.get_json()
         question = data['question']
         selects = data['selects']
-        answer_idx = data['answer_idx']
+        answer_idx = data['answer_idx'] - 1
+        data['answer_idx'] = answer_idx - 1
         last_id = self.get_last_id()
         data['id'] = last_id + 1
+        data['genre'] = 'quiz'
 
         # バリデーションを実装
         if not isinstance(question, str) or not question.strip():
@@ -106,10 +108,10 @@ class GameController:
             # バリデーションチェック
             if not images or len(images) != 9:
                 return make_response(jsonify({'code': 400, 'message': 'Invalid images list'}), 400)
-            if answer_idx is None or not answer_idx.isdigit() or not (0 <= int(answer_idx) < 9):
+            if answer_idx is None or not answer_idx.isdigit() or not (0 <= int(answer_idx) - 1 < 9):
                 return make_response(jsonify({'code': 400, 'message': 'Invalid correct index'}), 400)
 
-            answer_idx = int(answer_idx)
+            answer_idx = int(answer_idx) - 1
 
             # 画像ファイルをS3に保存
             image_hashes = []
@@ -145,9 +147,9 @@ class GameController:
             response = self.db_client.get_random_2(genre="quiz")
             if response:
                 quiz_data = {
-                "question": response.get('question', {}).get('S', ''),
-                "selects": [select.get('S', '') for select in response.get('selects', {}).get('L', [])],
-                "answer_idx": int(response.get('answer_idx', {}).get('N', -1))
+                    "question": response.get('question', {}).get('S', ''),
+                    "selects": [select.get('S', '') for select in response.get('selects', {}).get('L', [])],
+                    "answer_idx": int(response.get('answer_idx', {}).get('N', -1))
                 }
                 return make_response(jsonify({
                     'code': 200,

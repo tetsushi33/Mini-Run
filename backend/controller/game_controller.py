@@ -35,7 +35,6 @@ class GameController:
         data['answer_idx'] = answer_idx - 1
         last_id = self.get_last_id()
         data['id'] = last_id + 1
-        data['genre'] = 'quiz'
 
         # バリデーションを実装
         if not isinstance(question, str) or not question.strip():

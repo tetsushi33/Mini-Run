@@ -15,7 +15,7 @@ def create_app():
     CORS(
         app,
         resources = {
-            r"/api/*": {"origins": ["http://localhost", "http://localhost:3000","http://localhost:8032"]}
+            r"/api/*": {"origins": ["http://localhost", "http://localhost:3000"]}
         }
     )
 

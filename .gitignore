@@ -5,3 +5,5 @@
 # environment informations and credentials
 *.env
 *.pyc
+./frontend/thinks
+*.DS_Store

@@ -1,65 +1,5 @@
+/* 画面全体の中央揃え */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .container {
-    max-width: 500px;
-  }
-  
-  .logo {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .title {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-  }
-  
-  .question {
-    font-size: 1.5rem;
-    margin: 20px 0;
-  }
-
-  .question.h2{
-    color: black;
-  }
-  
-  .options .btn {
-    width: 100%;
-    margin: 5px 0;
-  }
-  
-  .status {
-    font-size: 1.2rem;
-    color: #28a745;
-  }
-  
-  .answer {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 20px 0;
-  }
-  
-  .actions .btn {
-    width: 100%;
-    margin: 5px 0;
-  }
-  
-  .d-none {
-    display: none;
-  }
-  
-
-  body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -84,8 +24,6 @@ body {
 }
 
 button {
-    width: 120px;
-    height: 45px;
     padding: 10px 20px;
     margin: 10px 0; /* 垂直方向の間隔を調整 */
     font-size: 16px;

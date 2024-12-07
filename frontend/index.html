@@ -30,30 +30,114 @@
     </div>  
   </div>
 
-  <!-- クイズ画面 -->
-  <div id="quiz" class="container text-center d-none">
-    <h2 class="title">クイズ</h2>
-    <p class="question" id="question_text">任天堂・・</p>
-    <div class="options selects">
-      <button class="btn btn-outline-primary option">スイッチ</button>
-      <button class="btn btn-outline-primary option">バトルドーム</button>
-      <button class="btn btn-outline-primary option">wii</button>
-      <button class="btn btn-outline-primary option">バトルドーム</button>
-    </div>
-  </div>
-
-  <!-- 正解画面 -->
-  <div id="result" class="container text-center d-none">
-    <p class="status">正解</p>
-    <h2 class="answer">スイッチ</h2>
-    <div class="actions">
-      <button class="btn btn-primary next-button">次へ</button>
-      <button class="btn btn-secondary quit-button">やめる</button>
-    </div>
-  </div>
-
-  <script src="game.js">
     
-  </script>
+
+  <!-- select-game-kind--display -->
+  <div id="play-mode" >
+    
+    <!-- 間違い探し -->
+    <div id="differentPoint-container" class="container text-center">
+      <h2>間違い探し</h2>
+      <div class="option differentPoint-iamge">
+        <p class="col-red col-sm-30 col-md-50">05/??</p>
+
+        <!-- 間違いを記入できるようにCANVASにする -->
+        <canvas class="different-image" id="target"></canvas>
+        <canvas class="different-image"></canvas>
+      </div>  
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quiz-container" class="container text-center d-none">
+      <h2 class="title">クイズ</h2>
+      <p class="question" id="question_text">任天堂・・</p>
+      <div class="options quiz_selects">
+        <button class="btn btn-outline-primary option">スイッチ</button>
+        <button class="btn btn-outline-primary option">バトルドーム</button>
+        <button class="btn btn-outline-primary option">wii</button>
+        <button class="btn btn-outline-primary option">バトルドーム</button>
+      </div>
+    </div>
+
+    <!-- イントロドン -->
+    <div id="introDon-container">
+      <p id="info-text">制限時間は10秒！5回まで答えられるよ！</p>
+      <div id="quiz-screen">
+          <p id="timer">残り時間: <span id="time-left">10</span>秒</p>
+          <p>解答回数: <span id="answer-count">0</span>/<span id="max-answer-count">5</span></p>
+          <button id="start-button">スタート</button>
+          <div id="buttons">
+              <button class="answer-button" id="button1">ボタン1</button>
+              <button class="answer-button" id="button2">ボタン2</button>
+          </div>
+          <input type="text" id="answer-input" placeholder="曲名を入力">
+          <button id="submit-answer-button">解答完了</button>
+          <p id="result-message" style="display: none;"></p>
+      </div>
+    </div>
+
+
+    <!-- リザルト画面 -->
+    <div id="result" class="container text-center d-none">
+      <div class="actions">
+        <button class="btn btn-primary next-button">次へ</button>
+        <button class="btn btn-secondary quit-button">やめる</button>
+      </div>
+    </div>
+
+  </div>
+  <!-- files -->
+  <div class="d-none">
+    <img src="image/ban-1.png" class="imgs">
+    <img src="image/ban-2.png" class="imgs">
+  </div>
+  
+
+  <!-- 作成モード -->
+  <div id="create-mode" class="container text-center d-none">
+    
+    <!-- DifferentPoint -->
+    <div id="create_differentPoint" class="container text-center ">
+      <h2>間違い探し</h2>
+      <div class="option differentPoint-iamge">
+        <canvas class="requewst_iamges">画像1を選択</button>
+        <canvas class="requewst_iamges">画像2を選択</button>
+      </div>
+    </div>
+
+    <!-- quiz -->
+    <div id="create_quiz" class="container text-center ">
+      <h2>クイズ</h2>
+      <div class="option differentPoint-iamge">
+        <form action="upload/quiz">
+          <p>質問</p>
+          <input type="text" id="quiz_question">
+          
+          <p>選択肢</p>
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          <input type="text" id="quiz_selects">
+          
+          <p>回答</p>
+          <input type="text" id="quiz_answer">
+        </form>
+      </div>
+    </div>
+
+
+    <!-- introDon -->
+    <div id="create_introdon" class="container text-center ">
+      
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+  <!-- <script src="games/FindDifference.js"></script> -->
+  <!-- <script src="games/paly.js"></script> -->
+  <!-- <script src="games/FindDifference.js"></script> -->
+  <!-- <script src="game.js"></script> -->
+
+  
 </body>
 </html>

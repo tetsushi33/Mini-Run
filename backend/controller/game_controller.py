@@ -3,7 +3,7 @@ from engine.dynamo_client import DynamoClient
 import hashlib
 #from werkzeug.utils import secure_filename
 #from dynamo_client import save_file_metadata
-#from s3_client import upload_to_s3
+from s3_client import upload_to_s3
 #from dotenv import load_dotenv
 
 
@@ -58,8 +58,8 @@ class GameController:
         data = request.get_json()
         music_title_answer = data['music_title_answer']
         #music_data = data['music_data'] # musicのデータ本体
-        id = 1 # データベースを見て次のidを取得する
-        data['id'] = id
+        last_id = self.get_last_id()
+        data['id'] = last_id + 1
 
         if 'file' not in request.files:
             return jsonify({"error": "No file part"}), 400
@@ -68,7 +68,8 @@ class GameController:
         if file.filename == '':
             return jsonify({"error": "No selected file"}), 400
         # ファイル名を安全にする
-        filename = secure_filename(file.filename)
+        #filename = secure_filename(file.filename)
+        filename = file.filename
         # ファイル名のハッシュを生成
         file_hash = hashlib.sha256(filename.encode('utf-8')).hexdigest()
 
@@ -76,7 +77,7 @@ class GameController:
             # S3にファイルをアップロード
             upload_to_s3(file, file_hash, file.content_type)
             # DynamoDBにメタデータを保存
-            save_file_metadata(file_hash, filename)
+            self.db_client.save_file_metadata(data, file_hash, filename)
             return jsonify({"message": "File uploaded successfully", "file_hash": file_hash}), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -102,8 +103,8 @@ class GameController:
         picture_data = data['picture_data']
         picture_data_answer = data['picture_data_answer']
         answer_points = data['answer_points']
-        id = 1 # データベースを見て次のidを取得する
-        data['id'] = id
+        last_id = self.get_last_id()
+        data['id'] = last_id + 1
 
         # バリデーションを実装
         if not isinstance(picture_data, str) or not music_title_answer.strip():

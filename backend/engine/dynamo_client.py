@@ -53,6 +53,31 @@ class DynamoClient:
             'likes': {'N': '0'}
         })
 
+    def save_file_metadata(self, data: dict, file_hash: str, original_name: str) -> bool:
+        """
+        DynamoDBにファイルのメタデータを保存する関数
+
+        Args:
+            file_hash (str): ファイルのハッシュ値
+            original_name (str): 元のファイル名
+
+        Returns:
+            bool: 成功した場合はTrue、失敗した場合はFalse
+        """
+        try:
+            client = boto3.client('dynamodb')
+            # DynamoDBにデータを登録
+            response = client.put_item(Item={
+                'id': {'N': str(data['id'])},
+                'file_hash': file_hash,
+                'original_name': original_name
+            })
+            return response.get('ResponseMetadata', {}).get('HTTPStatusCode') == 200
+        except Exception as e:
+            print(f"Error saving file metadata to DynamoDB: {e}")
+            return False
+        
+
     def create_diffshot(self, data: dict) -> None:
         '''対象のテーブルにディフショットデータを登録するメソッド
         '''

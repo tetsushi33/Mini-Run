@@ -2,6 +2,8 @@ const homeScreen = document.getElementById("home");
 const quiz_Screen = document.getElementById("quiz-container");
 const differentPoint_Screen = document.getElementById("differentPoint-container");
 const introdon_Screen = document.getElementById("introDon-container");
+const createModeScreen = document.getElementById("");
+const playModeScreen = document.getElementById("");
 
 const resultScreen = document.getElementById("result");
 const gameModeScreen = document.getElementById("game-mode");
@@ -30,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ゲームデータ
     let gameMode = "play";
+
+    createButton.addEventListener("click")
+
     //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
     const gamekind = {
       "クイズ":"quiz",
@@ -37,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "イントロドン":"introdon"
     }
 
+    //bug
     const gameSetting = {
       "create":{
         "クイズ":"quiz",
@@ -482,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
               });
       });
 
-
+      
       /** 
            * 正解の場所かどうかを判定する処理
            * @param touchPos 要素数2の1次元の配列

@@ -126,7 +126,6 @@ class GameController:
     
     def play_quiz(self):
         try:
-            data = request.get_json()
             # データベースからランダムに問題を取得
             #response = self.db_client.get_random()
             response = self.db_client.get_random_2(genre="quiz")

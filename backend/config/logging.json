@@ -1,0 +1,38 @@
+{
+    "version": 1,
+    "formatters": {
+        "default": {
+            "format": "[%(asctime)s] [%(levelname)s] : %(message)s"
+        }
+    },
+    "loggers": {
+        "file": {
+            "handlers": ["file"],
+            "level": "WARN",
+            "qualname": "file",
+            "propagate": "no"
+        },
+        "wsgi": {
+            "handlers": ["wsgi"],
+            "level": "WARN",
+            "qualname": "wsgi",
+            "propagate": "no"
+        }
+    },
+    "handlers": {
+        "file": {
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "formatter": "default",
+            "filename": "./logs/application.log"
+        },
+        "wsgi": {
+            "class": "logging.StreamHandler",
+            "stream": "ext://flask.logging.wsgi_errors_stream",
+            "formatter": "default"
+        }
+    },
+    "root": {
+        "level": "WARN",
+        "handlers": ["file", "wsgi"]
+    }
+}

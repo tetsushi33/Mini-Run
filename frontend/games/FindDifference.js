@@ -15,7 +15,7 @@ function isSmartPhone()
         console.log(`UserAgent${navigator.userAgent}, phone:True`);
         return true;
     }
-    
+
     else 
     {
         console.log(`UserAgent${navigator.userAgent},phone:False`);
@@ -48,31 +48,14 @@ let questionDate = {
 const imgs = document.querySelectorAll(".imgs");
 
 imgs.forEach(img =>{
-    questionDate["ImageList"].push([img,img.naturalWidth,img.naturalHeight]);
+    questionDate["ImageList"].push([img.src,img.naturalWidth,img.naturalHeight]);
     
 })
-
+console.log(questionDate["ImageList"]);
 LoadImages(0,questionDate["ImageList"][0]);
 LoadImages(1,questionDate["ImageList"][1]);
 
 
-
-console.log(questionDate["ImageList"]);
-
-// // 画像とCanvas要素を取得
-// const img = document.getElementById('sourceImage');
-// const canvas = document.getElementById('myCanvas');
-// const ctx = canvas.getContext('2d');
-
-// // ボタンが押されたらCanvasに描画
-// document.getElementById('drawButton').addEventListener('click', () => {
-//     // 画像の幅と高さに合わせてCanvasサイズを設定
-//     canvas.width = img.naturalWidth;  // 元画像の幅
-//     canvas.height = img.naturalHeight; // 元画像の高さ
-
-//     // Canvasに画像を描画
-//     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-// });
 
 let userDate = {
     "lastTouchPos":[25.32, 3452.3],
@@ -96,7 +79,7 @@ function LoadImages(images_number,LoadImage)
     
     images_list[images_number].width = LoadImage[1].naturalWidth;  // 元画像の幅
     images_list[images_number].height = LoadImage[2].naturalHeight; // 元画像の高さ
-    drowCTX.drawImage(LoadImage[0], 0, 0, LoadImage[1].naturalHeight, LoadImage[2].naturalHeight);
+    drowCTX.drawImage(LoadImage[0], 0, 0, LoadImage[1], LoadImage[2]);
 }
 
 
@@ -196,3 +179,4 @@ function Drow_CorrectAnswer(){
     })
 }
 Drow_CorrectAnswer();
+

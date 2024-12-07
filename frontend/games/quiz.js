@@ -54,7 +54,7 @@ let correctAnswer = "start-answer";
         });
     }
 
-export{
+export {
     quiz_SelectEvent,
     quiz_set
 }

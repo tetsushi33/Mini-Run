@@ -19,26 +19,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameKindOptions = document.querySelectorAll(".gamekind-option");
 
     //game
-    quiz_select_options = document.querySelectorAll(".quiz_selects");
-
+    const quiz_select_options = document.querySelectorAll(".quiz_selects");
+    const quiz_qustion = document.getElementById("question_text");
 
     const statusText = document.querySelector(".status");
     const answerText = document.querySelector(".answer");
 
 
 
+
     // ゲームデータ
     let gameMode = "play";
     //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
-    gamekind = {
+    const gamekind = {
       "クイズ":"quiz",
       "間違い探し":"differentPoint",
       "イントロドン":"introdon"
     }
 
+    const gameSetting = {
+      "create":{
+        "クイズ":"quiz",
+        "間違い探し":"differentPoint",
+       "イントロドン":"introdon"
+      },
+      "play":{
+        "クイズ":"create_quiz",
+        "間違い探し":"create_differentPoint",
+        "イントロドン":"create_introdon"
+      }
+    }
+
     
     //クイズデータ
-    question_date = [
+    let question_date = [
       {
           "question": "halejfalwjfwfioa",
           "selects": [
@@ -56,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
           "answer": 1
       },
     ]  
+    let correctAnswer = "nullHello";
+    console.log(question_date);
 
 
     /**
@@ -82,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             homeScreen.classList.remove("d-none");
         }
         
-        //game
+        //game-play
         else if (display == "quiz")
         {
             quiz_Screen.classList.remove("d-none");
@@ -95,6 +111,25 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             introdon_Screen.classList.remove("d-none");
         }
+
+        //gameCreate
+        else if (display == "create_quiz")
+        {
+
+        }
+
+        else if (display == "create_differentPoint")
+        {
+
+        }
+
+        else if (display == "create_introdon")
+        {
+
+        }
+
+            
+        
         
 
 
@@ -162,14 +197,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /**
        * 質問を書き込む
-       * @param question_text (string)質問文
+       * @param question_text { string } 質問文
        * @param selects (list-string)選択肢で表示するもの
        * @param answer_number (int)selectsでの連番-何番目の選択肢を正解にするか、
        * その名前のdisplayを表示する
        */
       function quiz_set(question_text,selects,answer_number)
       {
-          question_text.textContent = question_text;
+          console.log(`dateLoading-:-${typeof(question_text)}, \n ${selects}, \n ${answer_number}`);
+          quiz_qustion.textContent = question_text;
           const quiz_contents = quiz_select_options.item(0).children;      
           for(var i = 0; i < 4;i++)
           {

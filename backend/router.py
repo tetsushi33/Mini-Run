@@ -43,10 +43,10 @@ def api_create_quiz():
 def api_create_intro():
     return controller.create_intro()
 
-@router.route("/api/create/diffshot", methods=['POST'])
+@router.route("/api/create/searchdiff", methods=['POST'])
 @logger.http_request_logging
-def api_create_diffshot():
-    return controller.create_diffshot()
+def api_create_search_diff():
+    return controller.create_search_diff()
 
 @router.route("/api/play/quiz", methods=['GET'])
 @logger.http_request_logging
@@ -57,6 +57,11 @@ def api_play_quiz():
 @logger.http_request_logging
 def api_play_intro():
     return controller.play_intro()
+
+@router.route("/api/play/searchdiff", methods=['GET'])
+@logger.http_request_logging
+def api_play_search_diff():
+    return controller.play_search_diff()
 
 
 @router.after_request

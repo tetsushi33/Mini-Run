@@ -20,11 +20,16 @@ class DynamoClient:
     def get_random(self) -> None:
         '''対象のテーブルからランダムに1件レコードを取得するメソッド
         '''
-        response_all = self.db.scan(TableName=self.table_name)
-        valid_keys = [item['id']['N'] for item in response_all['Items']]
-        random_key = random.choice(valid_keys)
-        response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
-        return response.get('Item')
+        try:
+            response_all = self.db.scan(TableName=self.table_name)
+            items = response_all.get('Items', [])
+            if not items:
+                return None
+            random_item = random.choice(items)
+            return random_item
+        except Exception as e:
+            print(f"Error retrieving random item: {e}")
+            return None
     
     def get_random_2(self, genre: str) -> None:
         '''指定されたジャンルの中からランダムに1件レコードを取得するメソッド'''
@@ -34,7 +39,9 @@ class DynamoClient:
             FilterExpression="genre = :genre",
             ExpressionAttributeValues={":genre": {"S": genre}}
         )
-
+        items = response_all.get('Items', [])
+        if not items:
+                return None
         if genre == "quiz":
             # 有効なキーを取得
             valid_keys = [item['id']['N'] for item in response_all['Items']]
@@ -56,16 +63,19 @@ class DynamoClient:
                 "file_hash": file_hash,
                 "original_name": original_name,
             }
+        if genre == "search_diff":
+            selected_item = random.choice(items)
+            # 画像データのハッシュリストと正解インデックスを取得
+            image_hashes = [hash_item["S"] for hash_item in selected_item['image_hashes']['L']]
+            answer_idx = int(selected_item['answer_idx']['N'])
 
-
-
-        # 有効なキーを取得
-        valid_keys = [item['id']['N'] for item in items]
-        random_key = random.choice(valid_keys)
-
-        # ランダムに選ばれたキーのアイテムを取得
-        response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
-        return response.get('Item')
+            # 必要なデータを返す
+            return {
+                "image_hashes": image_hashes,
+                "answer_idx": answer_idx
+            }
+        else:
+            return None
 
 
     def scan(self, **kwargs):
@@ -74,15 +84,18 @@ class DynamoClient:
     def create_quiz(self, data: dict) -> None:
         '''対象のテーブルにクイズデータを登録するメソッド
         '''
-        client = boto3.client('dynamodb') # ここで良いかは不明
-        response = client.put_item(TableName=self.table_name, Item={
-            'id': {'N': str(data['id'])},
-            'question': {'S': data['question']},
-            'selects': {'L': [{'S': s} for s in data['selects']]},
-            'answer_idx': {'N': str(data['answer_idx'])},
-            'likes': {'N': '0'}
-        })
-        return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
+        try:
+            response = self.db.put_item(TableName=self.table_name, Item={
+                'id': {'N': str(data['id'])},
+                'question': {'S': data['question']},
+                'selects': {'L': [{'S': s} for s in data['selects']]},
+                'answer_idx': {'N': str(data['answer_idx'])},
+                'likes': {'N': '0'}
+            })
+            return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
+        except Exception as e:
+            print(f"Error saving data to DynamoDB: {e}")
+            return False
 
     def create_intro(self, data: dict) -> None:
         '''対象のテーブルにイントロデータを登録するメソッド
@@ -120,11 +133,28 @@ class DynamoClient:
             return False
         
 
-    def create_diffshot(self, data: dict) -> None:
-        '''対象のテーブルにディフショットデータを登録するメソッド
-        '''
-        client = boto3.client('dynamodb')
-        ## 未
+    def create_search_diff(self, data: dict) -> bool:
+        """
+        DynamoDBに間違い画像選択ゲームのデータを保存する
+        """
+        try:
+            item = {
+            'id': {'N': str(data['id'])},
+            'genre': {'S': data['genre']},
+            'image_hashes': {'L': [{'S': hash} for hash in data['image_hashes']]},
+            'answer_idx': {'N': str(data['answer_idx'])},
+            'likes': {'N': '0'}  # 初期値として0を設定
+            }
+            response = self.db.put_item(
+                TableName=self.table_name,
+                #Item=data
+                Item=item
+            )
+            # ステータスコードが200であれば成功
+            return response['ResponseMetadata']['HTTPStatusCode'] == 200
+        except Exception as e:
+            print(f"Error saving data to DynamoDB: {e}")
+            return False
 
         
         

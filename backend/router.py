@@ -53,6 +53,11 @@ def api_create_diffshot():
 def api_play_quiz():
     return controller.play_quiz()
 
+@router.route("/api/play/intro", methods=['GET'])
+@logger.http_request_logging
+def api_play_intro():
+    return controller.play_intro()
+
 
 @router.after_request
 def after_request(response):

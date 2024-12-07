@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //クイズデータ
     let question_date = [
       {
-          "question": "次のうち、太陽系に存在する惑星はどれですか？",
+          "question": "次のうち、太陽fejfioewajf;owjfo;eiwajfoi;する惑星はどれですか？",
           "selects": [
               "シリウス", 
               "地球", 
@@ -74,6 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(question_date);
 
 
+    function rd(max){
+        return Math.floor(Math.random() * max)
+    }
+    console.log(rd(2));
     /**
      * That option discplayis
      * @param display (string)この引数にhome,quiz,result,game_select,game_modeなどをstringで入れると、
@@ -205,28 +209,88 @@ document.addEventListener("DOMContentLoaded", () => {
        *         "アンドロメダ", 
        *         "アルタイル"
        *     ],
-       *    "answer":2
+       *     "answer":2
        *     }
        */
-      function load_QuizQuestion(){
+    //   async function load_QuizQuestion(url) {
+    //     const get_url = url + "/api/play/random";
+    //     try {
+    //         const request = await fetch(get_url, {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then(quizDate){
+    //             console.log()
+    //         }
+    
+    //         // ステータスコードのチェック
+    //         if (!request.ok) {
+    //             throw new Error(`レスポンスエラー: ステータス ${request.status}`);
+    //         }
+    
+    //         // JSON データを取得
+    //         const json_data = await request.json();
+    //         console.log("取得したクイズデータ:", json_data);
+    //         return json_data; // データを返す
+    //     } catch (error) {
+    //         console.error("エラーが発生しました:", error);
+    //         throw error; // 必要に応じてエラーを再スロー
+    //     }
+    // }
 
-      }
-      function quiz_set(question_text,selects,answer_number){
-        let date = {
-            "question": "次のうち、太陽系に存在する惑星はどれですか？",
-            "selects": [
-                "シリウス", 
-                "地球", 
-                "アンドロメダ", 
-                "アルタイル"
-            ],
-            "answer":2
+    function load_QuizQuestion(url, callback) {
+        const get_url = url + "/api/play/random";
+        const xhr = new XMLHttpRequest();
+    
+        xhr.open("GET", get_url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+    
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) { // 完了
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        callback(null, data); // データをコールバックで返す
+                    } catch (error) {
+                        callback(error, null);
+                    }
+                } else {
+                    callback(new Error(`ステータスエラー: ${xhr.status}`), null);
+                }
+            }
         };
-        // fetch("api/play/quiz",method("GET")){
+    
+        xhr.onerror = function () {
+            callback(new Error("ネットワークエラー"), null);
+        };
+    
+        xhr.send();
+    }
+    
+    
 
-        // }
-        console.log(date);
-      }
+
+      console.log("helloWorldejfo;iejfejf;oaewjgo;ifewjgo;wjgo;jeawgo;eajwgojeg;je\n");
+    //   console.log(load_QuizQuestion("http://172.23.0.5:5001"))
+    //   function quiz_set(question_text,selects,answer_number){
+        
+    //     let date = {
+    //         "question": "次のうち、太陽系に存在する惑星はどれですか？",
+    //         "selects": [
+    //             "シリウス", 
+    //             "地球", 
+    //             "アンドロメダ", 
+    //             "アルタイル"
+    //         ],
+    //         "answer":2
+    //     };
+    //     fetch("api/play/quiz",method("GET")){
+        
+    //     }
+    //     console.log(date);
+    //   }
 
         /**
        * 質問を書き込む
@@ -247,10 +311,36 @@ document.addEventListener("DOMContentLoaded", () => {
           correctAnswer = selects[answer_number];
       }
 
-      quiz_set(question_date[0]["question"],
-                          question_date[0]["selects"],
-                          question_date[0]["answer"]);
 
+      function get_quiz_set(question_text,selects,answer_number)
+      {
+          console.log(`dateLoading-:-${typeof(question_text)}, \n ${selects}, \n ${answer_number}`);
+          quiz_qustion.textContent = question_text;
+          const quiz_contents = quiz_select_options.item(0).children;      
+          for(var i = 0; i < 4;i++)
+          {
+            quiz_contents[i].textContent = selects[i]["S"];
+          }
+          correctAnswer = selects[answer_number];
+      }
+
+      // 使用例
+    load_QuizQuestion("http://localhost:5001", (error, data) => {
+        if (error) {
+            console.error("エラー:", error);
+        } else {
+            console.log("取得したクイズデータ:", data);
+            
+            get_quiz_set(data["game"]["question"]["S"],data["game"]["selects"]["L"],data["game"]["answer_idx"]["N"]);
+        }
+    });
+      /*quiz_set(question_date[0]["question"],
+                          question_date[0]["selects"],
+                          question_date[0]["answer"]);*/
+
+    // let get_question = load_QuizQuestion("http://localhost:5001");
+    // console.log(get_question);
+    // get_quiz_set(get_question["game"]["question"],get_question["game"]["selects"]["L"],get_question["game"]["answer_idx"]["N"]);
       //================================================================================================================================================================
       
 
@@ -622,10 +712,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    //テスト用のプログラムを組み込んでいる
-    quiz_set(question_date[0]["question"],
-      question_date[0]["selects"],
-      question_date[0]["answer"]);
+    // //テスト用のプログラムを組み込んでいる
+    // quiz_set(question_date[0]["question"],
+    //   question_date[0]["selects"],
+    //   question_date[0]["answer"]);
 
 
     let quiz_number

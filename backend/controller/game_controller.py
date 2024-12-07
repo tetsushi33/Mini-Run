@@ -32,7 +32,8 @@ class GameController:
         data = request.get_json()
         question = data['question']
         selects = data['selects']
-        answer_idx = data['answer_idx']
+        answer_idx = data['answer_idx'] - 1
+        data['answer_idx'] = answer_idx - 1
         last_id = self.get_last_id()
         data['id'] = last_id + 1
 

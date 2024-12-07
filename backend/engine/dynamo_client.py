@@ -80,7 +80,8 @@ class DynamoClient:
             'question': {'S': data['question']},
             'selects': {'L': [{'S': s} for s in data['selects']]},
             'answer_idx': {'N': str(data['answer_idx'])},
-            'likes': {'N': '0'}
+            'likes': {'N': '0'},
+            'genre': {'S': 'quiz'}
         })
         return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
 

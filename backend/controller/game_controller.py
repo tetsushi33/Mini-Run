@@ -121,4 +121,22 @@ class GameController:
         except Exception as e:
             return make_response(jsonify({'code': 500, 'message': str(e)}), 500)
             
-
+    def play_quiz(self):
+        try:
+            # データベースからランダムに問題を取得
+            response = self.db_client.get_random()
+            if response:
+                return make_response(jsonify({
+                    'code': 200,
+                    'game': response
+                }), 200)
+            else:
+                return make_response(jsonify({
+                    'code': 404,
+                    'message': 'No quiz found'
+                }), 404)
+        except Exception as e:
+            return make_response(jsonify({
+                'code': 500,
+                'message': str(e)
+            }), 500)

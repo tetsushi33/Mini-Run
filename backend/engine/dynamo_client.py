@@ -57,5 +57,8 @@ class DynamoClient:
         '''対象のテーブルにディフショットデータを登録するメソッド
         '''
         client = boto3.client('dynamodb')
+        ## 未
+
+        
         
     

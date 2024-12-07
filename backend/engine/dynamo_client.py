@@ -4,7 +4,7 @@ import random
 
 class DynamoClient:
     def __init__(self, table_name: str) -> None:
-        self.db = boto3.client('dynamodb', endpoint_url=os.getenv("DYNAMO_ENDPOINT"))
+        self.db = boto3.client('dynamodb')
         self.table_name = table_name
         #self.db = boto3.resource('dynamodb', region_name=REGION_NAME)
         #self.table_name = table_name or DYNAMODB_TABLE
@@ -21,10 +21,10 @@ class DynamoClient:
         '''対象のテーブルからランダムに1件レコードを取得するメソッド
         '''
         response_all = self.db.scan(TableName=self.table_name)
-        response_len = response_all['Count']
-        random_key = random.randrange(response_len)
+        valid_keys = [item['id']['N'] for item in response_all['Items']]
+        random_key = random.choice(valid_keys)
         response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
-        return response.get('Item', [])
+        return response.get('Item')
 
     def create_quiz(self, data: dict) -> None:
         '''対象のテーブルにクイズデータを登録するメソッド
@@ -38,7 +38,7 @@ class DynamoClient:
             'likes': {'N': '0'}
         })
         return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
-    
+
     def create_intro(self, data: dict) -> None:
         '''対象のテーブルにイントロデータを登録するメソッド
         '''

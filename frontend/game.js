@@ -2,21 +2,24 @@ const homeScreen = document.getElementById("home");
 const quiz_Screen = document.getElementById("quiz-container");
 const differentPoint_Screen = document.getElementById("differentPoint-container");
 const introdon_Screen = document.getElementById("introDon-container");
-const createModeScreen = document.getElementById("create_quiz");
-const playModeScreen = document.getElementById("play-mode");
+const playScreen = document.getElementById("play-mode");
+const createScreen = document.getElementById("create-mode");
 
 const resultScreen = document.getElementById("result");
 const gameModeScreen = document.getElementById("game-mode");
 const selectGameScreen = document.getElementById("SelctGameKind");
+const createQuizScreen = document.getElementById("create_quizScreen");
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("start-button");
+    
     const createButton = document.getElementById("create-button");
     const playButton = document.getElementById("play-button");
     const nextButton = document.querySelector(".next-button");
     const quitButton = document.querySelector(".quit-button");
+    
 
     const gameKindOptions = document.querySelectorAll(".gamekind-option");
 
@@ -119,11 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
     {
 
         createModeScreen.classList.add("d-none");
-        playModeScreen.classList.add("d-none");
+        playScreen.classList.add("d-none");
         if(gameMode == "create"){
-            createModeScreen.classList.remove("d-none");
+            createScreen.classList.remove("d-none");
         }else if (gameMode == "play"){
-            playModeScreen.classList.remove("d-none");
+            playScreen.classList.remove("d-none");
         }
 
         gameModeScreen.classList.add("d-none");
@@ -135,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         resultScreen.classList.add("d-none");
         homeScreen.classList.add("d-none");
+        create_quizScreen.classList.add("d-none");
+        
 
         console.log(`display:${display}`);
 
@@ -171,6 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
         //gameCreate
         else if (display == "create_quiz")
         {
+            
+            createQuizScreen.classList.remove("d-none");
+            
 
         }
 
@@ -192,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (display == "game_select")
         {
             selectGameScreen.classList.remove("d-none");
+            displayLoadRequest("create_quiz")
         }
         
         else if (display == "game_mode")
@@ -204,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
             resultScreen.classList.remove("d-none");
         }
     }
+    
 
 
     displayLoadRequest("home");
@@ -215,6 +225,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playButton.addEventListener("click",()=>{
       displayLoadRequest("game_select");
+    });
+
+    createButton.addEventListener('click', function () {
+      displayLoadRequest("create_quiz");
     });
 
     //gameMode
@@ -638,4 +652,57 @@ document.addEventListener("DOMContentLoaded", () => {
       displayLoadRequest("home");
     });
 
-  });
+    
+    document.getElementById("submit_quiz").addEventListener("click", async function () {
+        // フォームからデータを取得
+        const question = document.getElementById("quiz_question").value;
+        const options = [
+            document.getElementById("option_1").value,
+            document.getElementById("option_2").value,
+            document.getElementById("option_3").value,
+            document.getElementById("option_4").value,
+        ];
+        const answer = parseInt(document.getElementById("quiz_answer").value, 10);
+    
+        // 入力チェック
+        if (!question || options.some(option => !option) || isNaN(answer) || answer < 1 || answer > 4) {
+            alert("すべてのフィールドを正しく入力してください。");
+            return;
+        }
+    
+        // クイズデータを表示（または送信）
+        const quizData = {
+            question: question,
+            selects: options,
+            answer_idx: answer,
+        };
+    
+        // クイズデータをサーバーに送信
+        try {
+            const response = await fetch('http://localhost:5001/api/create/quiz', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(quizData),
+            });
+          
+            if (!response.ok) {
+              throw new Error('Failed to fetch');
+            }
+          
+            console.log(await response.json());
+          } catch (error) {
+            console.error(error);
+          };
+    
+    
+    console.log("クイズデータ:", quizData);
+        alert("クイズが作成されました！");
+
+    });
+    
+    });
+    
+  
+ 

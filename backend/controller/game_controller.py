@@ -3,7 +3,7 @@ from engine.dynamo_client import DynamoClient
 import hashlib
 #from werkzeug.utils import secure_filename
 #from dynamo_client import save_file_metadata
-from s3_client import upload_to_s3
+from engine.s3_client import upload_to_s3
 #from dotenv import load_dotenv
 
 

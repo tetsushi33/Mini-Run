@@ -43,7 +43,7 @@ class DynamoClient:
             return response.get('Item')
         if genre == "introdon":
             # 有効なキーを取得
-            valid_keys = [item['id']['N'] for item in items]
+            valid_keys = [item['id']['N'] for item in response_all['Items']]
             random_key = random.choice(valid_keys)
             selected_item = random.choice(items)
 

@@ -195,6 +195,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
+      function quiz_set(question_text,selects,answer_number){
+        let date = {
+            "question": "次のうち、太陽系に存在する惑星はどれですか？",
+            "selects": [
+                "シリウス", 
+                "地球", 
+                "アンドロメダ", 
+                "アルタイル"
+            ],
+            "answer":2
+        };
+        // fetch("api/play/quiz",method("GET")){
+
+        // }
+        console.log(date);
+      }
+
         /**
        * 質問を書き込む
        * @param question_text { string } 質問文

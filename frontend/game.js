@@ -2,8 +2,8 @@ const homeScreen = document.getElementById("home");
 const quiz_Screen = document.getElementById("quiz-container");
 const differentPoint_Screen = document.getElementById("differentPoint-container");
 const introdon_Screen = document.getElementById("introDon-container");
-const createModeScreen = document.getElementById("");
-const playModeScreen = document.getElementById("");
+const createModeScreen = document.getElementById("create_quiz");
+const playModeScreen = document.getElementById("play-mode");
 
 const resultScreen = document.getElementById("result");
 const gameModeScreen = document.getElementById("game-mode");
@@ -33,7 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // ゲームデータ
     let gameMode = "play";
 
-    createButton.addEventListener("click")
+    createButton.addEventListener("click",()=>{
+        gameMode = "create";
+    });
+    playButton.addEventListener("click",()=>{
+        gameMode = "play";
+    });
 
     //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
     const gamekind = {
@@ -91,6 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     function displayLoadRequest(display)
     {
+
+        createModeScreen.classList.add("d-none");
+        playModeScreen.classList.add("d-none");
+        if(gameMode == "create"){
+            createModeScreen.classList.remove("d-none");
+        }else if (gameMode == "play"){
+            playModeScreen.classList.remove("d-none");
+        }
+
         gameModeScreen.classList.add("d-none");
         selectGameScreen.classList.add("d-none");
         
@@ -247,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // }
 
     function load_QuizQuestion(url, callback) {
-        const get_url = url + "/api/play/random";
+        const get_url = url + "/api/play/quiz";
         const xhr = new XMLHttpRequest();
     
         xhr.open("GET", get_url, true);

@@ -145,3 +145,52 @@ class GameController:
                 'code': 500,
                 'message': str(e)
             }), 500)
+        
+    def play_intro(self):
+        try:
+            # データベースからランダムに問題を取得
+            response = self.db_client.get_random()
+            if response:
+                intro_data = {
+                "music_title_answer": response.get('music_title_answer', {}).get('S', ''),
+                "music_data": response.get('music_data', {}).get('B', '')
+                }
+                return make_response(jsonify({
+                    'code': 200,
+                    'game_content': intro_data
+                }), 200)
+            else:
+                return make_response(jsonify({
+                    'code': 404,
+                    'message': 'No intro found'
+                }), 404)
+        except Exception as e:
+            return make_response(jsonify({
+                'code': 500,
+                'message': str(e)
+            }), 500)
+
+    def play_diffshot(self):
+        try:
+            # データベースからランダムに問題を取得
+            response = self.db_client.get_random()
+            if response:
+                diffshot_data = {
+                "picture_data": response.get('picture_data', {}).get('S', ''),
+                "picture_data_answer": response.get('picture_data_answer', {}).get('S', ''),
+                "answer_points": response.get('answer_points', {}).get('L', [])
+                }
+                return make_response(jsonify({
+                    'code': 200,
+                    'game_content': diffshot_data
+                }), 200)
+            else:
+                return make_response(jsonify({
+                    'code': 404,
+                    'message': 'No diffshot found'
+                }), 404)
+        except Exception as e:
+            return make_response(jsonify({
+                'code': 500,
+                'message': str(e)
+            }), 500)

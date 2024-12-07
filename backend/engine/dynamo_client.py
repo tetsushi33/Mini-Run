@@ -26,6 +26,9 @@ class DynamoClient:
         response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
         return response.get('Item')
 
+    def scan(self, **kwargs):
+        return self.db.scan(**kwargs)
+
     def create_quiz(self, data: dict) -> None:
         '''対象のテーブルにクイズデータを登録するメソッド
         '''
@@ -34,7 +37,7 @@ class DynamoClient:
             'id': {'N': str(data['id'])},
             'question': {'S': data['question']},
             'selects': {'L': [{'S': s} for s in data['selects']]},
-            'answer_idx': {'N': str(data['answer'])},
+            'answer_idx': {'N': str(data['answer_idx'])},
             'likes': {'N': '0'}
         })
         return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False

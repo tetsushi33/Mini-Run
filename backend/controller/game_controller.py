@@ -9,6 +9,7 @@ import hashlib
 
 class GameController:
     def __init__(self):
+        self.table_name = "minirun_game_table"
         self.db_client = DynamoClient(table_name="minirun_game_table")
 
     def get_game_random(self):
@@ -17,23 +18,31 @@ class GameController:
             'code': 200,
             'game': response
         }))
+    
+    def get_last_id(self) -> int:
+        response = self.db_client.scan(TableName=self.table_name, ProjectionExpression="id")
+        items = response.get('Items', [])
+        if not items:
+            return 0
+        ids = [int(item['id']['N']) for item in items]
+        return max(ids)
 
     def create_quiz(self):
         # リクエストデータを取得
         data = request.get_json()
         question = data['question']
         selects = data['selects']
-        answer = data['answer']
-        id = 1 # データベースを見て次のidを取得する
-        data['id'] = id
+        answer_idx = data['answer_idx']
+        last_id = self.get_last_id()
+        data['id'] = last_id + 1
 
         # バリデーションを実装
         if not isinstance(question, str) or not question.strip():
             return make_response(jsonify({'code': 400, 'message': 'Invalid question'}), 400)
         if not isinstance(selects, list) or len(selects) != 4:
             return make_response(jsonify({'code': 400, 'message': 'Invalid selects'}), 400)
-        if not isinstance(answer, int) or not (0 <= answer <= 3):
-            return make_response(jsonify({'code': 400, 'message': 'Invalid answer'}), 400)
+        if not isinstance(answer_idx, int) or not (0 <= answer_idx <= 3):
+            return make_response(jsonify({'code': 400, 'message': 'Invalid answer_idx'}), 400)
         
         # DBに保存
         try:

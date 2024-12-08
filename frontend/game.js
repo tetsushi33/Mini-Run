@@ -151,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //game-play
         else if (display == "quiz")
         {
+
             loadQuizQuestion("http://localhost:5001", (error, data) => {
                 if (error) {
                     console.error("エラー:", error);
@@ -200,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (display == "game_select")
         {
             selectGameScreen.classList.remove("d-none");
-            displayLoadRequest("create_quiz")
         }
         
         else if (display == "game_mode")
@@ -224,10 +224,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     playButton.addEventListener("click",()=>{
+      console.log("呼ばれてる１")
       displayLoadRequest("game_select");
     });
 
-    createButton.addEventListener('click', function () {
+    createButton.addEventListener('click',()=>{
+      console.log("呼ばれてる２")
       displayLoadRequest("create_quiz");
     });
 

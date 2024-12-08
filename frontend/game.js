@@ -2,12 +2,14 @@ const homeScreen = document.getElementById("home");
 const quiz_Screen = document.getElementById("quiz-container");
 const differentPoint_Screen = document.getElementById("differentPoint-container");
 const introdon_Screen = document.getElementById("introDon-container");
+const playScreen = document.getElementById("play-mode");
 const createScreen = document.getElementById("create-mode");
 
 const resultScreen = document.getElementById("result");
 const gameModeScreen = document.getElementById("game-mode");
 const selectGameScreen = document.getElementById("SelctGameKind");
 const createQuizScreen = document.getElementById("create_quizScreen");
+const createSerchDiffScreen = document.getElementById("differentPoint-images");
 
 
 
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     const gameKindOptions = document.querySelectorAll(".gamekind-option");
-
+    
     //game
     const quiz_select_options = document.querySelectorAll(".quiz_selects");
     const quiz_qustion = document.getElementById("question_text");
@@ -37,7 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createButton.addEventListener("click",()=>{
         gameMode="create";
-    })
+        console.log("a");
+        displayLoadRequest("game_select");
+    });
+    
     //ゲーム選択画面でそのままLoadingKeyに入れるようにするための対策
     const gamekind = {
       "クイズ":"quiz",
@@ -46,12 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const gameSetting = {
-      "create":{
+      "play":{
         "クイズ":"quiz",
         "間違い探し":"differentPoint",
        "イントロドン":"introdon"
       },
-      "play":{
+      "create":{
         "クイズ":"create_quiz",
         "間違い探し":"create_differentPoint",
         "イントロドン":"create_introdon"
@@ -87,11 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
      * @param display (string)この引数にhome,quiz,result,game_select,game_modeなどをstringで入れると、
      * その名前のdisplayを表示する
      */
+
     function displayLoadRequest(display)
     {
-        if(gameMode == "create"){
+        if(gameMode == "create")
+        {
             createScreen.classList.remove("d-none");
+            playScreen.classList.add("d-none");
         }
+        else if (gameMode == "play")
+        {
+            playScreen.classList.remove("d-none");
+            createScreen.classList.add("d-none");
+        }
+        
 
         gameModeScreen.classList.add("d-none");
         selectGameScreen.classList.add("d-none");
@@ -99,10 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
         quiz_Screen.classList.add("d-none");
         differentPoint_Screen.classList.add("d-none");
         introdon_Screen.classList.add("d-none");
-        
+        createSerchDiffScreen.classList.add("d-none");
+
         resultScreen.classList.add("d-none");
         homeScreen.classList.add("d-none");
-        create_quizScreen.classList.add("d-none");
+        createQuizScreen.classList.add("d-none");
         
 
         console.log(`display:${display}`);
@@ -120,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (display == "differentPoint")
         {
             differentPoint_Screen.classList.remove("d-none");
+
         }
         else if (display == "introdon")
         {
@@ -129,15 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
         //gameCreate
         else if (display == "create_quiz")
         {
-            
             createQuizScreen.classList.remove("d-none");
-            
-
         }
 
         else if (display == "create_differentPoint")
         {
-
+            createSerchDiffScreen.classList.remove("d-none");
         }
 
         else if (display == "create_introdon")
@@ -153,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (display == "game_select")
         {
             selectGameScreen.classList.remove("d-none");
-            displayLoadRequest("create_quiz")
+            displayLoadRequest("quiz");
         }
         
         else if (display == "game_mode")
@@ -164,6 +177,11 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (display == "result")
         {
             resultScreen.classList.remove("d-none");
+        }
+
+        else
+        {
+            console.log(`\n[load-none] \n ${display}`);
         }
     }
     
@@ -210,9 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
             faild = true;
           }
 
-    
+          quiz_set("",["","","",""],"")
           // answerText.textContent = correctAnswer; // 正解を表示
-    
+          
           // 結果画面へ移動
           displayLoadRequest("result");
         });
@@ -287,9 +305,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }
       }
 
-
+      
       const isUsePhone = isSmartPhone();
 
+      
       //request-date
 
       /**
@@ -297,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
        * @param answer_map クリックするとどこが間違ってるかを教えてくれる
        * @param CorrectAnswer answer_mapの連番でどれが正解したかを保存する
        */
-
       let questionDate = {
           "ImageList":[], 
           "answer_map":[[116,69],[42,51]], 
@@ -451,7 +469,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //============================================================================================================================================
 
 //=======================イントロドン======================================
-
+      /*
       const introdon_startButton = document.getElementById('start-button');
       const submitButton = document.getElementById('submit-answer-button');
       const resultMessage = document.getElementById('result-message');
@@ -601,7 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
       submitButton.classList.remove('disabled');
       answerInput.disabled = false;
     }
-
+    */
 //============================================================================================================================================
 //============================================================================================================================================
       
@@ -616,7 +634,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //選択したボタンのtextCountentからと一致する名前のゲームのdivを表示する
         if(gamekind[selectGameKind] != null){
-          displayLoadRequest(gamekind[selectGameKind]);
+        //   displayLoadRequest(gamekind[selectGameKind]);
+          displayLoadRequest(gameSetting[gameMode][selectGameKind]);
         }
         
         else

@@ -2,6 +2,7 @@ const homeScreen = document.getElementById("home");
 const quiz_Screen = document.getElementById("quiz-container");
 const differentPoint_Screen = document.getElementById("differentPoint-container");
 const introdon_Screen = document.getElementById("introDon-container");
+
 const playScreen = document.getElementById("play-mode");
 const createScreen = document.getElementById("create-mode");
 
@@ -267,7 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
           displayLoadRequest("result");
         });
       });
-      
 
 //============================================================================================================================================
 //============================================================================================================================================

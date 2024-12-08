@@ -30,7 +30,7 @@ def hello_world():
 
 @router.route("/api/play/random", methods=['GET'])
 @logger.http_request_logging
-def api_play_random():
+def api_play_random_quiz():
     return controller.get_game_random()
 
 @router.route("/api/create/quiz", methods=['POST'])
@@ -48,10 +48,20 @@ def api_create_intro():
 def api_create_diffshot():
     return controller.create_diffshot()
 
+@router.route("/api/play/quiz", methods=['GET'])
+@logger.http_request_logging
+def api_play_quiz():
+    return controller.play_quiz()
+
+@router.route("/api/play/intro", methods=['GET'])
+@logger.http_request_logging
+def api_play_intro():
+    return controller.play_intro()
+
 
 @router.after_request
 def after_request(response):
-    # response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response

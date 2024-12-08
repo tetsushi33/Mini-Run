@@ -25,6 +25,48 @@ class DynamoClient:
         random_key = random.choice(valid_keys)
         response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
         return response.get('Item')
+    
+    def get_random_2(self, genre: str) -> None:
+        '''指定されたジャンルの中からランダムに1件レコードを取得するメソッド'''
+        # 指定されたジャンルのアイテムをスキャン
+        response_all = self.db.scan(
+            TableName=self.table_name,
+            FilterExpression="genre = :genre",
+            ExpressionAttributeValues={":genre": {"S": genre}}
+        )
+
+        if genre == "quiz":
+            # 有効なキーを取得
+            valid_keys = [item['id']['N'] for item in response_all['Items']]
+            random_key = random.choice(valid_keys)
+            response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
+            return response.get('Item')
+        if genre == "introdon":
+            # 有効なキーを取得
+            valid_keys = [item['id']['N'] for item in response_all['Items']]
+            random_key = random.choice(valid_keys)
+            selected_item = random.choice(items)
+
+            # 音声データのハッシュ値と元の名前を取得
+            file_hash = selected_item['file_hash']['S']
+            original_name = selected_item['original_name']['S']
+
+            # 必要に応じて他の処理を追加可能
+            return {
+                "file_hash": file_hash,
+                "original_name": original_name,
+            }
+
+
+
+        # 有効なキーを取得
+        valid_keys = [item['id']['N'] for item in items]
+        random_key = random.choice(valid_keys)
+
+        # ランダムに選ばれたキーのアイテムを取得
+        response = self.db.get_item(TableName=self.table_name, Key={"id": {"N": str(random_key)}})
+        return response.get('Item')
+
 
     def scan(self, **kwargs):
         return self.db.scan(**kwargs)
@@ -38,7 +80,8 @@ class DynamoClient:
             'question': {'S': data['question']},
             'selects': {'L': [{'S': s} for s in data['selects']]},
             'answer_idx': {'N': str(data['answer_idx'])},
-            'likes': {'N': '0'}
+            'likes': {'N': '0'},
+            'genre': {'S': 'quiz'}
         })
         return True if response['ResponseMetadata']['HTTPStatusCode'] == 200 else False
 
@@ -53,9 +96,37 @@ class DynamoClient:
             'likes': {'N': '0'}
         })
 
+    def save_file_metadata(self, data: dict, file_hash: str, original_name: str) -> bool:
+        """
+        DynamoDBにファイルのメタデータを保存する関数
+
+        Args:
+            file_hash (str): ファイルのハッシュ値
+            original_name (str): 元のファイル名
+
+        Returns:
+            bool: 成功した場合はTrue、失敗した場合はFalse
+        """
+        try:
+            client = boto3.client('dynamodb')
+            # DynamoDBにデータを登録
+            response = client.put_item(Item={
+                'id': {'N': str(data['id'])},
+                'file_hash': file_hash,
+                'original_name': original_name
+            })
+            return response.get('ResponseMetadata', {}).get('HTTPStatusCode') == 200
+        except Exception as e:
+            print(f"Error saving file metadata to DynamoDB: {e}")
+            return False
+        
+
     def create_diffshot(self, data: dict) -> None:
         '''対象のテーブルにディフショットデータを登録するメソッド
         '''
         client = boto3.client('dynamodb')
+        ## 未
+
+        
         
     

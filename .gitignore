@@ -1,0 +1,9 @@
+# log files
+*.log.*
+*.log
+
+# environment informations and credentials
+*.env
+*.pyc
+./frontend/thinks
+*.DS_Store

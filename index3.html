@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ボタンで画面遷移</title>
+    <link href="style3.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h2>ボタンで画面遷移</h2>
+        <div class="mt-4">
+            <button id="btn1" class="btn btn-primary" onclick="navigate(1)">画面1</button>
+            <button id="btn2" class="btn btn-primary" onclick="navigate(2)">画面2</button>
+            <button id="btn3" class="btn btn-primary" onclick="navigate(3)">画面3</button>
+        </div>
+        <div id="screen" class="mt-5">
+            <div id="screen1" class="screen" style="display:none;">
+                <h3>これは画面1です。</h3>
+            </div>
+            <div id="screen2" class="screen" style="display:none;">
+                <h3>これは画面2です。</h3>
+            </div>
+            <div id="screen3" class="screen" style="display:none;">
+                <h3>これは画面3です。</h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="script3.js"></script>
+</body>
+</html>

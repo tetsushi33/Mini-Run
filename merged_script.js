@@ -20,10 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const showQuizButton = document.getElementById("show-quiz");
     const showCreateButton = document.getElementById("show-create");
     const screens = document.querySelectorAll(".screen");
-    const choice = document.getElementById("choice");
-    const choiceQuizButton = document.getElementById("choice-quiz");
-    const choicemachigaiButton = document.getElementById("choice-machigai");
-    const choiceintroButton = document.getElementById("choice-intro");
+    
     
 
      
@@ -45,35 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
         navigation.classList.add("d-none");
         quizContainer.classList.remove("d-none");
         createQuizContainer.classList.add("d-none");
-        choice.classList.add("d-none");
+        
         
     });
 
     showCreateButton.addEventListener("click", () => {
         navigation.classList.add("d-none");
         quizContainer.classList.add("d-none");
-        createQuizContainer.classList.add("d-none");
-        choice.classList.remove("d-none");
-    });
-    choiceQuizButton.addEventListener("click", () => {
-        navigation.classList.add("d-none");
-        quizContainer.classList.add("d-none");
-        createQuizContainer.classList.add("d-none");
-        choice.classList.add("d-none");
-        
-    });
-    choicemachigaiButton.addEventListener("click", () => {
-        navigation.classList.add("d-none");
-        quizContainer.classList.add("d-none");
-        createQuizContainer.classList.add("d-none");
-        choice.classList.add("d-none");
-        
-    });
-    choiceintroButton.addEventListener("click", () => {
-        navigation.classList.add("d-none");
-        quizContainer.classList.add("d-none");
         createQuizContainer.classList.remove("d-none");
-        choice.classList.add("d-none");
+       
+    });
+    
         
     });
 
@@ -250,5 +229,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-});
+
 

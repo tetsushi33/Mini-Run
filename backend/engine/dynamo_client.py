@@ -84,6 +84,7 @@ class DynamoClient:
     def create_quiz(self, data: dict) -> None:
         '''対象のテーブルにクイズデータを登録するメソッド
         '''
+
         try:
             response = self.db.put_item(TableName=self.table_name, Item={
                 'id': {'N': str(data['id'])},
@@ -97,6 +98,7 @@ class DynamoClient:
         except Exception as e:
             print(f"Error saving data to DynamoDB: {e}")
             return False
+
 
     def create_intro(self, data: dict) -> None:
         '''対象のテーブルにイントロデータを登録するメソッド

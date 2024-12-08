@@ -15,7 +15,7 @@ def create_app():
     CORS(
         app,
         resources = {
-            r"/api/*": {"origins": ["http://localhost", "http://localhost:3000"]}
+            r"/api/*": {"origins": ["http://localhost", "http://localhost:3000","http://localhost:8032"]}
         }
     )
 
@@ -23,4 +23,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(host='0.0.0.0', debug=True, port=5000, threaded=True, use_reloader=False)
+    app.run(host='0.0.0.0', debug=True, port=5001, threaded=True, use_reloader=False)
